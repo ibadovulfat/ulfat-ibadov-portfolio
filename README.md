@@ -1,5 +1,7 @@
 # React Portfolio Project
 
+> **Note:** Usage requires explicit permission from the author.
+
 **Creator:** Ulfat Ibadov
 **LinkedIn:** [Ulfat Ibadov](https://www.linkedin.com/in/ibadovulfat/)
 
