@@ -7,6 +7,12 @@
 
 This is a modern portfolio website built with React, Vite, TypeScript, and styled with Tailwind CSS. It features a clean design, various UI components from the shadcn/ui library, and includes sections for a hero introduction, project showcases, skills, and contact information.
 
+
+## Demo Video (Live Research Preview)
+
+A live demonstration is available on YouTube:
+
+🔗 https://www.youtube.com/watch?v=sHEfFVGVh8E
 ## Technologies Used
 
 This project is built with a modern, component-based architecture. Here are the core technologies and libraries used:
