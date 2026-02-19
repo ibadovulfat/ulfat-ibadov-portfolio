@@ -35,15 +35,15 @@ const BlogPost: React.FC = () => {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Journal
           </Link>
-          
+
           <span className="text-sm font-medium px-3 py-1 rounded-full bg-secondary text-secondary-foreground inline-block mb-6">
             {post.category}
           </span>
-          
+
           <h1 className="text-3xl md:text-5xl font-display font-bold mb-6">
             {post.title}
           </h1>
-          
+
           <div className="flex flex-wrap items-center text-sm text-muted-foreground mb-8 gap-6 border-b border-border pb-8">
             <div className="flex items-center">
               <Calendar className="h-4 w-4 mr-2" />
@@ -63,7 +63,11 @@ const BlogPost: React.FC = () => {
             </div>
           </div>
 
-          <div 
+          {/* 
+            Note: Content is sourced from trusted local data (@/data/blogPosts). 
+            If content ever comes from an external API, a robust sanitizer like DOMPurify should be used.
+          */}
+          <div
             className="prose prose-lg dark:prose-invert max-w-none"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />

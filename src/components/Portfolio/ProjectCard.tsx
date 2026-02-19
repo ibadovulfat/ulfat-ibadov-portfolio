@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Eye, LayoutGrid } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/UI/button";
 import {
   Card,
   CardContent,
@@ -9,11 +9,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/UI/card";
 import {
   Dialog,
   DialogTrigger
-} from "@/components/ui/dialog";
+} from "@/components/UI/dialog";
 import ProjectDetailsDialog from "./ProjectDetailsDialog";
 import { ProjectType } from "./types";
 

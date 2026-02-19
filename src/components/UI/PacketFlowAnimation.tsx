@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AlertTriangle, XCircle, Shield, Globe, Zap, Ghost, Lock, Search, Eye } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/UI/button';
 
 interface Packet {
     id: number;

@@ -108,6 +108,11 @@ const RedTeamShowcase: React.FC = () => {
             <Helmet>
                 <title>Red Team Showcase | Ulfat Ibadov - Interactive Security Demonstrations</title>
                 <meta name="description" content="Interactive red team and penetration testing demonstrations including live terminal sessions, exploit showcases, and attack chain visualizations." />
+                <meta property="og:title" content="Red Team Showcase | Ulfat Ibadov" />
+                <meta property="og:description" content="Interactive security demonstrations and red team methodologies." />
+                <meta property="og:image" content="https://about.surf/upload/profile.jpg" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image" content="https://about.surf/upload/profile.jpg" />
             </Helmet>
 
             {/* Hero Section */}

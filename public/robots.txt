@@ -71,5 +71,5 @@ User-agent: MJ12bot
 Crawl-delay: 10
 
 # Sitemap
-Sitemap: https://ulfat-ibadov.com/sitemap.xml
+Sitemap: https://about.surf/sitemap.xml
 

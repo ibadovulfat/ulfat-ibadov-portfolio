@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
 import Section from "@/components/UI/Section";
 import ProjectCard from "./ProjectCard";
 import { ProjectType } from "./types";

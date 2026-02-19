@@ -11,7 +11,7 @@ import FloatingShapes from "@/components/UI/FloatingShapes";
 import AnimatedGradient from "@/components/UI/AnimatedGradient";
 import ScrollReveal from "@/components/UI/ScrollReveal";
 import Card3D from "@/components/UI/Card3D";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/UI/button";
 import {
   Card,
   CardContent,
@@ -19,7 +19,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/UI/card";
 import {
   Dialog,
   DialogContent,
@@ -27,7 +27,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogClose
-} from "@/components/ui/dialog";
+} from "@/components/UI/dialog";
 import { Helmet } from "react-helmet";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -74,6 +74,7 @@ const Index: React.FC = () => {
       const text = headingElement.innerText;
       const chars = text.split('');
 
+      headingElement.textContent = text;
       headingElement.innerHTML = chars
         .map(char => char === ' '
           ? ' '
@@ -135,17 +136,34 @@ const Index: React.FC = () => {
         <meta property="og:description" content="Professional portfolio showcasing penetration testing expertise, vulnerability assessment services, and offensive security solutions." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://about.surf" />
-        <meta property="og:image" content="/lovable-uploads/profile-photo.png" />
+        <meta property="og:image" content="https://about.surf/upload/profile.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Ulfat Ibadov | Penetration Testing Expert" />
         <meta name="twitter:description" content="Professional portfolio showcasing penetration testing services and security solutions." />
+        <meta name="twitter:image" content="https://about.surf/upload/profile.jpg" />
         <link rel="canonical" href="https://about.surf/" />
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Ulfat Ibadov",
+              "url": "https://about.surf/",
+              "image": "https://about.surf/upload/profile.jpg",
+              "jobTitle": "Penetration Testing & Offensive Security Expert",
+              "sameAs": [
+                "https://github.com/ibadovulfat",
+                "https://linkedin.com/in/ulfat-ibadov"
+              ]
+            }
+          `}
+        </script>
       </Helmet>
 
       {/* Hero Section */}
       <div
         ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+        className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden"
       >
         {/* Animated Gradient Background - Base Layer */}
         <AnimatedGradient />
@@ -336,20 +354,17 @@ const Index: React.FC = () => {
                       Close
                     </Button>
                     {project.url && (
-                      <a href={project.url} target="_blank" rel="noopener noreferrer" className="ml-4">
-                        {project.url && (
-                          <a
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="ml-4"
-                          >
-                            <Button variant="outline">
-                              <ExternalLink className="h-4 w-4 mr-2" />
-                              Visit Project
-                            </Button>
-                          </a>
-                        )}                      </a>
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-4"
+                      >
+                        <Button variant="outline">
+                          <ExternalLink className="h-4 w-4 mr-2" />
+                          Visit Project
+                        </Button>
+                      </a>
                     )}
                   </div>
                 </DialogContent>

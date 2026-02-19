@@ -17,6 +17,7 @@ import RedTeamShowcase from "./pages/RedTeamShowcase";
 import Skills from "./pages/Skills";
 import TerminalResumePage from "./pages/TerminalResumePage";
 import NotFound from "./pages/NotFound";
+import AccessDenied from "./pages/AccessDenied";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,8 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/red-team-showcase" element={<RedTeamShowcase />} />
               <Route path="/terminal-resume" element={<TerminalResumePage />} />
+              <Route path="/access-denied" element={<AccessDenied />} />
+              <Route path="/upload" element={<AccessDenied />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>

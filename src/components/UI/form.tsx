@@ -17,7 +17,7 @@ import {
 } from "@/hooks/use-form-field"
 
 import { cn } from "@/lib/utils"
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/UI/label"
 
 const Form = FormProvider
 

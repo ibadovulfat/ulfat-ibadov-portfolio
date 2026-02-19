@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw, Skull, Terminal as TerminalIcon, Activity } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/UI/button';
 
 interface Command {
     command: string;
@@ -286,12 +286,12 @@ const advancedScenarios: Scenario[] = [
                 type: 'info'
             },
             {
-                command: "python3 jwt_tool.py --token [JWT_TOKEN] --attack idor --uid 1",
+                command: "python3 jwt_tool.py --token [MOCK_JWT_TOKEN] --attack idor --uid 1",
                 output: [
                     "[*] Original UID: 1042 (User)",
                     "[*] Attempting JWT header injection (alg: None)...",
                     "[*] Testing Secret Brute-force (top 10k)...",
-                    "[+] JWT Key found: 's3cr3t_p@ss_2024'",
+                    "[+] JWT Key found: 'MOCK_SECRET_KEY_FOR_DEMO_PURPOSES'",
                     "[*] Forging new token for UID: 1 (Admin)",
                     "[+] Admin token generated successfully!",
                     "[*] Session hijacked with administrative privileges"
@@ -318,7 +318,7 @@ const advancedScenarios: Scenario[] = [
                     "[+] Metadata service reached!",
                     "[*] Extracting IAM Role: 'Production-Web-Role'",
                     "[*] AccessKeyId:     AKIA2V4G7H8I9J0K1L2M",
-                    "[*] SecretAccessKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+                    "[*] SecretAccessKey: MOCK_SECRET_ACCESS_KEY_FOR_DEMO_ONLY",
                     "[*] Token:           IQoJb3JpZ2luX2VjEBoaCXVzLWVhc3QtMS...",
                     "",
                     "[+] AWS Cloud credentials successfully exfiltrated!"
@@ -496,7 +496,7 @@ const AdvancedLiveTerminal: React.FC = () => {
                         <button
                             key={index}
                             onClick={() => handleScenarioChange(index)}
-                            className={`flex-shrink-0 px-5 py-3 rounded-lg text-sm font-semibold transition-all duration-300 transform ${selectedScenario === index
+                            className={`flex-shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-lg text-xs md:text-sm font-semibold transition-all duration-300 transform ${selectedScenario === index
                                 ? 'bg-primary text-primary-foreground shadow-[0_0_20px_rgba(var(--primary),0.3)] scale-105 border-primary z-10'
                                 : 'bg-secondary/40 text-secondary-foreground hover:bg-secondary/60 border border-white/5 hover:border-white/20'
                                 }`}
@@ -535,7 +535,7 @@ const AdvancedLiveTerminal: React.FC = () => {
             <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 to-purple-500/20 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
 
-                <div className="relative terminal-window border border-white/10 shadow-2xl rounded-xl overflow-hidden backdrop-blur-md">
+                <div className="relative terminal-window border border-white/10 shadow-2xl rounded-xl overflow-hidden backdrop-blur-md min-h-[300px] md:min-h-0">
                     {/* Terminal Header */}
                     <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/5 bg-black/40">
                         <div className="flex items-center gap-3">
@@ -546,7 +546,7 @@ const AdvancedLiveTerminal: React.FC = () => {
                             </div>
                             <div className="h-4 w-px bg-white/10 mx-1"></div>
                             <Skull className="h-4 w-4" style={{ color: getDifficultyColor(currentScenario.difficulty) }} />
-                            <span className="text-xs text-white/60 font-mono tracking-wide truncate max-w-[200px] md:max-w-md">
+                            <span className="hidden sm:block text-xs text-white/60 font-mono tracking-wide truncate max-w-[200px] md:max-w-md">
                                 {currentScenario.description}
                             </span>
                         </div>
@@ -592,7 +592,7 @@ const AdvancedLiveTerminal: React.FC = () => {
                     {/* Terminal Content */}
                     <div
                         ref={terminalRef}
-                        className="p-6 h-[500px] overflow-y-auto font-mono text-sm space-y-3 bg-black/95 relative selection:bg-red-500/30"
+                        className="p-4 md:p-6 h-[350px] md:h-[500px] overflow-y-auto font-mono text-[11px] md:text-sm space-y-3 bg-black/95 relative selection:bg-red-500/30"
                     >
                         <div className="scanlines-overlay pointer-events-none" />
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { X, ExternalLink } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/UI/button";
 import { cn } from "@/lib/utils";
 import {
   DialogContent,
@@ -8,11 +8,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
+} from "@/components/UI/dialog";
+import { Badge } from "@/components/UI/badge";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ProjectType } from "./types";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@/components/UI/separator";
 
 interface ProjectDetailsDialogProps {
   project: ProjectType;
@@ -23,35 +23,35 @@ const ProjectDetailsDialog: React.FC<ProjectDetailsDialogProps> = ({ project }) 
 
   return (
     <DialogContent className={cn(
-          "sm:max-w-3xl overflow-y-auto",
-          isMobile 
-            ? "h-[90vh] max-h-[90vh] w-[95vw] p-6 rounded-lg" 
-            : "max-h-[85vh] rounded-lg"
-        )}>
-          <DialogHeader className="space-y-2 relative pr-12">        <div className="flex items-start justify-between gap-2">
-          <DialogTitle className="text-xl md:text-2xl font-display break-words pr-2">
-            {project.title}
-          </DialogTitle>
-          <Badge variant="secondary" className="whitespace-nowrap mt-1">
-            {project.category}
-          </Badge>
-        </div>
+      "sm:max-w-3xl overflow-y-auto",
+      isMobile
+        ? "h-[90vh] max-h-[90vh] w-[95vw] p-6 rounded-lg"
+        : "max-h-[85vh] rounded-lg"
+    )}>
+      <DialogHeader className="space-y-2 relative pr-12">        <div className="flex items-start justify-between gap-2">
+        <DialogTitle className="text-xl md:text-2xl font-display break-words pr-2">
+          {project.title}
+        </DialogTitle>
+        <Badge variant="secondary" className="whitespace-nowrap mt-1">
+          {project.category}
+        </Badge>
+      </div>
         <DialogDescription className="text-muted-foreground break-words">
           {project.description}
         </DialogDescription>
       </DialogHeader>
-            
-            {!isMobile && project.image && (
-              <div className="rounded-md overflow-hidden my-4 border border-border">
-                <img 
-                  src={project.image} 
-                  alt={project.title}
-                  className="w-full h-auto"
-                />
-              </div>
-            )}
-      
-            {project.tags?.length > 0 && (
+
+      {!isMobile && project.image && (
+        <div className="rounded-md overflow-hidden my-4 border border-border">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-auto"
+          />
+        </div>
+      )}
+
+      {project.tags?.length > 0 && (
         <div className="flex flex-wrap gap-1.5 my-4">
           {project.tags.map((tag, index) => (
             <Badge key={index} variant="outline" className="bg-muted/50">
@@ -60,9 +60,9 @@ const ProjectDetailsDialog: React.FC<ProjectDetailsDialogProps> = ({ project }) 
           ))}
         </div>
       )}
-      
+
       <Separator className="my-4" />
-      
+
       {project.category === "Certificates" && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -135,7 +135,7 @@ const ProjectDetailsDialog: React.FC<ProjectDetailsDialogProps> = ({ project }) 
               </p>
             </div>
           )}
-          
+
           {project.details?.role && (
             <div>
               <h3 className="font-medium mb-1.5">Role</h3>

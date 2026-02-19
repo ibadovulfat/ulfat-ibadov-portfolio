@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Section from "@/components/UI/Section";
 import ParallaxEffect from "@/components/UI/ParallaxEffect";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
 import { Briefcase, GraduationCap, Download, Shield, Bug, Terminal, Code, Palette } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -10,7 +10,8 @@ const Resume: React.FC = () => {
   const [activeTab, setActiveTab] = useState("work");
 
   const handleDownloadClick = () => {
-    window.open('/terminal-resume', '_blank');
+    const win = window.open('/terminal-resume', '_blank', 'noopener,noreferrer');
+    if (win) win.opener = null;
   };
 
   return (

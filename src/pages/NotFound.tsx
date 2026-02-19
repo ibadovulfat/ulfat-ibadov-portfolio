@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Home, AlertTriangle } from "lucide-react";
 import Section from "@/components/UI/Section";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/UI/button";
 import { Helmet } from "react-helmet";
 
 const NotFound: React.FC = () => {

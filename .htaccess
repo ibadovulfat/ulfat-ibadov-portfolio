@@ -17,6 +17,7 @@ RewriteRule . /index.html [L]
 
 # Custom error pages
 ErrorDocument 404 /404.html
+ErrorDocument 403 /access-denied
 
 # Security headers
 Header set X-Content-Type-Options "nosniff"
@@ -24,6 +25,10 @@ Header set X-Frame-Options "SAMEORIGIN"
 Header set X-XSS-Protection "1; mode=block"
 Header set Referrer-Policy "strict-origin-when-cross-origin"
 Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.emailjs.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: /upload/; connect-src 'self' https://api.emailjs.com;"
+Header set X-Permitted-Cross-Domain-Policies "none"
+Header set Expect-CT "max-age=86400, enforce"
 
 # Enable compression
 <IfModule mod_deflate.c>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Lock, Shuffle, Send, Settings, Eye, EyeOff } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/UI/button';
 
 interface ProtocolLayer {
     id: string;
