@@ -66,28 +66,4 @@ You need to have [Node.js](https://nodejs.org/) (which includes npm) and/or [Bun
     bun install
     ```
 
-### Running the Development Server
 
-To start the Vite development server and view the project in your browser:
-
-```bash
-npm run dev
-```
-or
-```bash
-bun run dev
-```
-
-## Building for Production
-
-To create a production-ready build of the application:
-
-```bash
-npm run build
-```
-or
-```bash
-bun run build
-```
-
-This command bundles the application into the `dist/` directory. The files in this directory are optimized and ready for deployment to a web server.
