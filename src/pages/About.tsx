@@ -30,9 +30,10 @@ const About: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center px-4 sm:px-6">
           <ParallaxEffect speed={0.05} direction="left">
             <div className="aspect-square w-full max-w-md mx-auto rounded-lg overflow-hidden">
-              <img 
-                src="/upload/profile.jpg" 
-                alt="Ulfat Ibadov" 
+              <img
+                src="/upload/profile.jpg"
+                alt="Ulfat Ibadov - Penetration Tester & Offensive Security Expert Profile Picture"
+                title="Ulfat Ibadov - Penetration Tester"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -41,14 +42,14 @@ const About: React.FC = () => {
           <ParallaxEffect speed={0.1} direction="right">
             <h2 className="text-3xl font-display font-bold mb-6">My Story</h2>
             <div className="space-y-4 text-muted-foreground">
-              
-            <p>
-                I work like a real adversary - mapping attack surface across web & internal networks, fingerprinting systems and probing the logic, trust, and boundaries defenders assume are safe.
-Flaws become footholds: parameters, sessions, protocols, misconfigs, and escalation paths.
-Once inside, I move quietly - evading controls, pivoting, chaining access, and validating what’s exploitable.
-My approach mirrors persistent threat behavior: identify weakness, escalate impact, and expose risks scanners never see.
 
-            </p>
+              <p>
+                I work like a real adversary - mapping attack surface across web & internal networks, fingerprinting systems and probing the logic, trust, and boundaries defenders assume are safe.
+                Flaws become footholds: parameters, sessions, protocols, misconfigs, and escalation paths.
+                Once inside, I move quietly - evading controls, pivoting, chaining access, and validating what’s exploitable.
+                My approach mirrors persistent threat behavior: identify weakness, escalate impact, and expose risks scanners never see.
+
+              </p>
 
             </div>
           </ParallaxEffect>
@@ -64,7 +65,7 @@ My approach mirrors persistent threat behavior: identify weakness, escalate impa
               My academic background and professional certifications in cybersecurity
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-12">
               <div className="relative pl-8 border-l border-muted pb-8">
@@ -78,7 +79,7 @@ My approach mirrors persistent threat behavior: identify weakness, escalate impa
                   <p className="text-sm font-medium">STUDENT ID: HTB-5642792B2C</p>
                 </div>
               </div>
-              
+
               <div className="relative pl-8 border-l border-muted pb-8">
                 <div className="absolute top-0 left-0 w-4 h-4 rounded-full bg-primary transform -translate-x-1/2"></div>
                 <div>
@@ -94,18 +95,6 @@ My approach mirrors persistent threat behavior: identify weakness, escalate impa
             </div>
 
             <div className="space-y-12">
-              <div className="relative pl-8 border-l border-muted pb-8">
-                <div className="absolute top-0 left-0 w-4 h-4 rounded-full bg-primary transform -translate-x-1/2"></div>
-                <div>
-                  <span className="text-sm text-muted-foreground">2022-2023</span>
-                  <h3 className="text-xl font-display font-medium mt-1 mb-2">Ankara Science University</h3>
-                  <p className="text-base text-muted-foreground">
-                    Ethics/White Hat Hacker Expertise, Cybercrime Expertise, Cyber Security
-                  </p>
-                  <p className="text-sm font-medium">Diploma</p>
-                </div>
-              </div>
-              
               <div className="relative pl-8 border-l border-muted pb-8">
                 <div className="absolute top-0 left-0 w-4 h-4 rounded-full bg-primary transform -translate-x-1/2"></div>
                 <div>
@@ -132,7 +121,7 @@ My approach mirrors persistent threat behavior: identify weakness, escalate impa
               My professional journey in the cybersecurity field
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-12">
               <div className="relative pl-8 border-l border-muted pb-8">
@@ -146,7 +135,7 @@ My approach mirrors persistent threat behavior: identify weakness, escalate impa
                 </div>
               </div>
             </div>
-            
+
             <div className="space-y-12">
               <div className="relative pl-8 border-l border-muted pb-8">
                 <div className="absolute top-0 left-0 w-4 h-4 rounded-full bg-primary transform -translate-x-1/2"></div>
@@ -200,7 +189,7 @@ My approach mirrors persistent threat behavior: identify weakness, escalate impa
                 description: "Leaving no stone unturned when assessing security postures and potential risks."
               }
             ].map((value, index) => (
-              <div 
+              <div
                 key={index}
                 className="bg-background rounded-lg border border-border p-6 md:p-8 hover-lift"
               >
@@ -247,8 +236,8 @@ My approach mirrors persistent threat behavior: identify weakness, escalate impa
                     <h4 className="text-lg font-medium mb-3">{group.category}</h4>
                     <div className="flex flex-wrap gap-2">
                       {group.skills.map((skill, i) => (
-                        <span 
-                          key={i} 
+                        <span
+                          key={i}
                           className="text-sm px-3 py-1 rounded-full bg-muted/50 text-muted-foreground"
                         >
                           {skill}
@@ -291,8 +280,8 @@ My approach mirrors persistent threat behavior: identify weakness, escalate impa
                     <h4 className="text-lg font-medium mb-3">{group.category}</h4>
                     <div className="flex flex-wrap gap-2">
                       {group.skills.map((skill, i) => (
-                        <span 
-                          key={i} 
+                        <span
+                          key={i}
                           className="text-sm px-3 py-1 rounded-full bg-muted/50 text-muted-foreground"
                         >
                           {skill}

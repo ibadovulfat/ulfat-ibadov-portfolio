@@ -13,7 +13,7 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     id: 7,
-    title: "Certified Ethical Hacker (CEH ANSI) — What I Passed and What It Really Means",
+    title: "Certified Ethical Hacker (CEH ANSI) - What I Passed and What It Really Means",
     excerpt: "On 22 October 2025, I passed the EC-Council Certified Ethical Hacker (CEH ANSI) theory examination. This exam tests whether you understand how real attacks are executed, detected, and abused.",
     date: "October 22, 2025",
     author: "Ulfat Ibadov",
@@ -25,7 +25,7 @@ export const blogPosts: BlogPost[] = [
 
       <p>This exam does not test memorization. It tests whether you understand how real attacks are executed, detected, and abused across modern infrastructures.</p>
 
-      <p class="font-medium text-lg my-4">CEH is about offensive reasoning — knowing how attackers think so defenders can stop them.</p>
+      <p class="font-medium text-lg my-4">CEH is about offensive reasoning - knowing how attackers think so defenders can stop them.</p>
 
       <h2>What CEH Actually Tests</h2>
       <p>The CEH exam is built around how attacks move through systems, networks, users, and infrastructure. It focuses on how breaches are created, expanded, and maintained across multiple layers.</p>
@@ -64,7 +64,7 @@ export const blogPosts: BlogPost[] = [
       <p>CEH verifies that you understand how a breach turns into long-term compromise.</p>
 
       <h3>4. Cloud, Wireless, IoT & Modern Infrastructure</h3>
-      <p>CEH is no longer limited to Windows and Linux — it covers hybrid and embedded systems:</p>
+      <p>CEH is no longer limited to Windows and Linux - it covers hybrid and embedded systems:</p>
       <ul class="list-disc pl-6 mb-4">
         <li>IoT gateways, middleware, and cloud-based architectures</li>
         <li>Zigbee and short-range wireless protocols used in industrial systems</li>
@@ -179,7 +179,7 @@ export const blogPosts: BlogPost[] = [
         </div>
       </div>
       
-      <p>This is not automated scanning — every task requires manual thinking, tool selection, and attack logic.</p>
+      <p>This is not automated scanning - every task requires manual thinking, tool selection, and attack logic.</p>
 
       <h3>Why CEH Practical Matters</h3>
       <p>Most cybersecurity certifications measure memorization. CEH Practical measures operational capability.</p>
@@ -195,7 +195,7 @@ export const blogPosts: BlogPost[] = [
       <p>This is the same skillset required in Red team operations, Penetration testing, Incident response validation, and Threat emulation.</p>
 
       <h3>How This Connects to My Work</h3>
-      <p>My research and projects — including ShadowLab Defender — focus on how real attacker behavior is observed, scored, and detected by modern EDRs.</p>
+      <p>My research and projects - including ShadowLab Defender - focus on how real attacker behavior is observed, scored, and detected by modern EDRs.</p>
       
       <p>CEH Practical validates the offensive side of this equation: How attacks actually look when executed against live systems.</p>
       
@@ -230,7 +230,7 @@ export const blogPosts: BlogPost[] = [
         <li>Modern EDR/AV solutions (like Microsoft Defender) interpret various telemetry signals.</li>
         <li>Security analysts can hunt for persistence, analyze internals, and take active response actions.</li>
       </ul>
-      <p>By combining defensive monitoring with controlled offensive modules (like ARP spoofing and stress scenarios), it allows for full-spectrum defensive understanding—seeing the attack, the telemetry it generates, and the response it requires.</p>
+      <p>By combining defensive monitoring with controlled offensive modules (like ARP spoofing and stress scenarios), it allows for full-spectrum defensive understanding-seeing the attack, the telemetry it generates, and the response it requires.</p>
 
       <h3>Purpose</h3>
       <p>ShadowLab was developed as part of an Advanced Cybersecurity Portfolio to demonstrate a holistic range of applied offensive and defensive research skills, including:</p>
@@ -323,7 +323,7 @@ streamlit run app.py</pre>
       
       <p>This was not a multiple-choice exam. This was a 6-hour live offensive security operation against real vulnerable web applications.</p>
       
-      <p class="font-medium text-lg my-4">The goal was simple: Break into web applications the way real attackers do — and prove it.</p>
+      <p class="font-medium text-lg my-4">The goal was simple: Break into web applications the way real attackers do - and prove it.</p>
 
       <h3>📄 My Official Result</h3>
       <div class="bg-muted/30 p-6 rounded-lg my-6 border border-border">
@@ -338,7 +338,7 @@ streamlit run app.py</pre>
         </ul>
       </div>
       
-      <p>This is a performance-based credential, not theory. You do not pass WAHS by memorizing OWASP — you pass it by owning systems.</p>
+      <p>This is a performance-based credential, not theory. You do not pass WAHS by memorizing OWASP - you pass it by owning systems.</p>
 
       <h3>🧠 What WAHS Really Tests</h3>
       <p>WAHS is designed to answer one question: <strong>Can you actually hack modern web applications?</strong></p>
@@ -371,7 +371,7 @@ streamlit run app.py</pre>
         <li>Extract flags, user.txt, and root.txt</li>
       </ul>
       
-      <p>These weren’t CTF puzzles — they were real-world attack chains: HTTP → CMS → Web Shell → SSH → Root. This is exactly how real attackers compromise production servers. The WAHS exam proves you can replicate that workflow under pressure.</p>
+      <p>These weren’t CTF puzzles - they were real-world attack chains: HTTP → CMS → Web Shell → SSH → Root. This is exactly how real attackers compromise production servers. The WAHS exam proves you can replicate that workflow under pressure.</p>
 
       <h3>🔥 Why WAHS Is Different</h3>
       <p>Most certifications test “What is XSS?” or “What is SQLi?”. WAHS tests:</p>
@@ -389,7 +389,7 @@ streamlit run app.py</pre>
         <li class="flex justify-between border-b pb-1 font-bold text-primary"><span>75%+</span> <span>Certified Web Application Professional</span></li>
         <li class="flex justify-between border-b pb-1"><span>90%+</span> <span class="text-muted-foreground">Certified Web Application Expert</span></li>
       </ul>
-      <p>I earned the Professional level — meaning I can independently perform full-scope web application penetration testing.</p>
+      <p>I earned the Professional level - meaning I can independently perform full-scope web application penetration testing.</p>
 
       <h3>🧑‍💻 What This Means for My Career</h3>
       <p>This certification proves that I can:</p>
@@ -417,7 +417,7 @@ streamlit run app.py</pre>
       <h3>🚀 Final Thoughts</h3>
       <p>WAHS is not easy. It is not forgiving. And it does not reward guessing.</p>
       <p>It rewards one thing: <strong>Real web hacking skill.</strong></p>
-      <p>Passing it confirms that I can operate as a professional web penetration tester — not just someone who reads about vulnerabilities, but someone who can turn them into access.</p>
+      <p>Passing it confirms that I can operate as a professional web penetration tester - not just someone who reads about vulnerabilities, but someone who can turn them into access.</p>
 
       <img src="/upload/wahs_result.jpeg" alt="WAHS Exam Result" class="rounded-lg shadow-lg w-full mt-8 mb-6" />
     `

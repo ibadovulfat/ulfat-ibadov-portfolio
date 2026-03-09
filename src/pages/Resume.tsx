@@ -163,18 +163,6 @@ const Resume: React.FC = () => {
                   ]
                 },
                 {
-                  degree: "Ethics/White Hat Hacker Expertise, Cybercrime Expertise",
-                  institution: "Ankara Science University",
-                  location: "Ankara, Turkey",
-                  period: "2022 - 2023",
-                  description: "Specialized training in cyber security with focus on ethical hacking and cybercrime investigation.",
-                  achievements: [
-                    "Diploma in Cyber Security",
-                    "Studied advanced penetration testing methodologies",
-                    "Trained in digital forensics and incident response"
-                  ]
-                },
-                {
                   degree: "Certified Ethical Hacker & Cybersecurity Certifications",
                   institution: "EC-Council",
                   location: "Online",

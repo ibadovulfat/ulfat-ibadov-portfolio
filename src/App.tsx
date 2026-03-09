@@ -3,7 +3,7 @@ import { Toaster } from "@/components/UI/toaster";
 import { Toaster as Sonner } from "@/components/UI/sonner";
 import { TooltipProvider } from "@/components/UI/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Layout from "./components/Layout/Layout";
 import Index from "./pages/Index";
@@ -41,7 +41,8 @@ const App = () => (
               <Route path="/red-team-showcase" element={<RedTeamShowcase />} />
               <Route path="/terminal-resume" element={<TerminalResumePage />} />
               <Route path="/access-denied" element={<AccessDenied />} />
-              <Route path="/upload" element={<AccessDenied />} />
+              <Route path="/upload" element={<Navigate to="/access-denied" replace />} />
+              <Route path="/upload/*" element={<Navigate to="/access-denied" replace />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>

@@ -5,10 +5,8 @@ import { ArrowRight, Eye, ExternalLink } from "lucide-react";
 import Section from "@/components/UI/Section";
 import ParallaxEffect from "@/components/UI/ParallaxEffect";
 import ScrollIndicator from "@/components/UI/ScrollIndicator";
-import HackingAnimation from "@/components/UI/HackingAnimation";
-import PenetrationTestingScene from "@/components/UI/PenetrationTestingScene";
-import FloatingShapes from "@/components/UI/FloatingShapes";
 import AnimatedGradient from "@/components/UI/AnimatedGradient";
+import CyberNetwork from "@/components/UI/CyberNetwork";
 import ScrollReveal from "@/components/UI/ScrollReveal";
 import Card3D from "@/components/UI/Card3D";
 import { Button } from "@/components/UI/button";
@@ -168,22 +166,10 @@ const Index: React.FC = () => {
         {/* Animated Gradient Background - Base Layer */}
         <AnimatedGradient />
 
-        {/* Penetration Testing 3D Scene */}
-        <div className="absolute inset-0 -z-10">
-          <PenetrationTestingScene />
-        </div>
+        {/* Premium Interactive Cyber Network */}
+        <CyberNetwork />
 
-        {/* Floating 3D Shapes */}
-        <div className="absolute inset-0 -z-5">
-          <FloatingShapes />
-        </div>
-
-        {/* Background Hacking Animation with reduced opacity */}
-        <div className="absolute inset-0 -z-5 opacity-30">
-          <HackingAnimation opacity={0.3} />
-        </div>
-
-        <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 -z-10 pointer-events-none">
           {/* Background layers for parallax effect */}
           <div className="absolute inset-0 parallax-layer" style={{ zIndex: 1 }}>
             <div className="absolute top-[20%] left-[20%] h-40 w-40 rounded-full bg-primary/5 blur-3xl"></div>
@@ -418,7 +404,8 @@ const Index: React.FC = () => {
               <div className="aspect-square w-full max-w-md mx-auto rounded-lg overflow-hidden">
                 <img
                   src="/upload/profile.jpg"
-                  alt="Ulfat Ibadov"
+                  alt="Ulfat Ibadov - Penetration Tester & Offensive Security Expert Profile Picture"
+                  title="Ulfat Ibadov - Penetration Tester"
                   className="w-full h-full object-cover"
                 />
               </div>

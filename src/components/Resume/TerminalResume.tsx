@@ -189,56 +189,59 @@ escalate impact, and expose risks scanners never see.
 
     return (
         <div
-            className={`fixed inset-0 bg-black flex items-center justify-center overflow-hidden cursor-text`}
+            className={`fixed inset-0 flex items-center justify-center overflow-hidden cursor-text ${isFullscreen ? 'z-[9999] bg-black' : 'z-50 bg-black/90'}`}
             onClick={focusInput}
         >
             <AttackMap opacity={0.3} />
 
             <div
-                className={`relative z-10 ${isFullscreen ? 'w-full h-full translate-x-0' : 'w-full max-w-6xl h-[90vh] mx-4'} rounded-lg overflow-hidden transition-all duration-300`}
+                className={`relative ${isFullscreen ? 'fixed inset-0 w-full h-full m-0 rounded-none z-[10000]' : 'z-10 w-[calc(100%-2rem)] md:w-full md:max-w-6xl h-[90vh] mx-4'} flex flex-col rounded-lg overflow-hidden transition-all duration-300 bg-black/90`}
                 style={{
-                    boxShadow: isFullscreen ? 'none' : `0 0 40px ${theme.glow}, 0 0 80px ${theme.glow}`,
-                    border: isFullscreen ? 'none' : `2px solid ${theme.primary}`
+                    boxShadow: isFullscreen ? 'none' : `0 0 40px ${theme.glow}, 0 0 50px ${theme.glow}`,
+                    border: isFullscreen ? 'none' : `1px solid ${theme.primary}`
                 }}
             >
+                {/* Fixed Top Bar */}
                 <div
-                    className="flex items-center justify-between px-4 py-3 border-b relative z-30"
+                    className="flex-none flex items-center justify-between px-3 md:px-4 py-3 border-b relative z-[60]"
                     style={{
-                        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                        backgroundColor: 'rgba(5, 5, 5, 0.95)',
                         borderColor: theme.primary
                     }}
                     onClick={(e) => e.stopPropagation()} // Prevent clicking header from focusing input
                 >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 md:gap-2">
                         <button
                             onClick={(e) => { e.stopPropagation(); onBack(); }}
-                            className="w-5 h-5 rounded-full bg-red-500 hover:bg-red-600 transition-colors flex items-center justify-center group shadow-md hover:scale-110 duration-200 cursor-pointer"
+                            className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-500 hover:bg-red-600 transition-colors flex items-center justify-center group shadow-md hover:scale-110 duration-200 cursor-pointer"
                             title="Close Terminal"
                         >
-                            <span className="opacity-0 group-hover:opacity-100 text-[10px] text-white font-bold">×</span>
+                            <span className="opacity-0 group-hover:opacity-100 text-[8px] md:text-[10px] text-white font-bold pointer-events-none">×</span>
+                        </button>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onBack(); }}
+                            className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-yellow-500 hover:bg-yellow-600 transition-colors flex items-center justify-center group shadow-md hover:scale-110 duration-200 cursor-pointer"
+                            title="Minimize Terminal"
+                        >
+                            <span className="opacity-0 group-hover:opacity-100 text-[8px] md:text-[10px] text-white font-bold pointer-events-none">−</span>
                         </button>
                         <button
                             onClick={(e) => { e.stopPropagation(); setIsFullscreen(!isFullscreen); }}
-                            className="w-5 h-5 rounded-full bg-yellow-500 hover:bg-yellow-600 transition-colors flex items-center justify-center group shadow-md hover:scale-110 duration-200 cursor-pointer"
+                            className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-green-500 hover:bg-green-600 transition-colors flex items-center justify-center group shadow-md hover:scale-110 duration-200 cursor-pointer"
                             title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
                         >
-                            <span className="opacity-0 group-hover:opacity-100 text-[10px] text-white font-bold">−</span>
+                            <span className="opacity-0 group-hover:opacity-100 text-[8px] md:text-[10px] text-white font-bold pointer-events-none">+</span>
                         </button>
-                        <button
-                            className="w-5 h-5 rounded-full bg-green-500 hover:bg-green-600 transition-colors flex items-center justify-center group shadow-md hover:scale-110 duration-200 cursor-not-allowed"
-                        >
-                            <span className="opacity-0 group-hover:opacity-100 text-[10px] text-white font-bold">+</span>
-                        </button>
-                        <span className="ml-4 text-sm font-mono" style={{ color: theme.text }}>
+                        <span className="ml-2 md:ml-4 text-xs md:text-sm font-mono truncate max-w-[150px] md:max-w-full" style={{ color: theme.text }}>
                             {theme.prompt}:~/profile
                         </span>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 md:gap-2">
                         {isTyping && (
                             <button
                                 onClick={skipTyping}
-                                className="text-xs px-2 py-1 rounded font-mono hover:bg-white/10 transition-colors"
+                                className="text-[10px] md:text-xs px-2 py-1 flex-none rounded font-mono hover:bg-white/10 transition-colors cursor-pointer"
                                 style={{ color: theme.primary }}
                             >
                                 [Skip]
@@ -246,10 +249,11 @@ escalate impact, and expose risks scanners never see.
                         )}
                         <button
                             onClick={(e) => { e.stopPropagation(); setIsFullscreen(!isFullscreen); }}
-                            className="p-1 hover:bg-white/10 rounded transition-colors"
+                            className="p-1 md:p-2 hover:bg-white/10 rounded transition-colors flex items-center justify-center cursor-pointer"
                             style={{ color: theme.text }}
+                            title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
                         >
-                            {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                            {isFullscreen ? <Minimize2 className="h-3 w-3 md:h-4 md:w-4 pointer-events-none" /> : <Maximize2 className="h-3 w-3 md:h-4 md:w-4 pointer-events-none" />}
                         </button>
                     </div>
                 </div>

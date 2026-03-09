@@ -85,19 +85,19 @@ const WireframeCube: React.FC = () => (
   <svg viewBox="0 0 100 100" className="w-full h-full">
     <defs>
       <linearGradient id="cubeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="rgba(155, 135, 245, 0.3)" />
-        <stop offset="100%" stopColor="rgba(59, 130, 246, 0.2)" />
+        <stop offset="0%" stopColor="rgba(155, 135, 245, 0.7)" />
+        <stop offset="100%" stopColor="rgba(59, 130, 246, 0.6)" />
       </linearGradient>
     </defs>
     {/* Front face */}
-    <path d="M 25 35 L 75 35 L 75 85 L 25 85 Z" fill="none" stroke="url(#cubeGradient)" strokeWidth="0.5" />
+    <path d="M 25 35 L 75 35 L 75 85 L 25 85 Z" fill="none" stroke="url(#cubeGradient)" strokeWidth="1.5" />
     {/* Back face */}
-    <path d="M 35 25 L 85 25 L 85 75 L 35 75 Z" fill="none" stroke="url(#cubeGradient)" strokeWidth="0.5" opacity="0.6" />
+    <path d="M 35 25 L 85 25 L 85 75 L 35 75 Z" fill="none" stroke="url(#cubeGradient)" strokeWidth="1.5" opacity="0.8" />
     {/* Connecting lines */}
-    <line x1="25" y1="35" x2="35" y2="25" stroke="url(#cubeGradient)" strokeWidth="0.5" opacity="0.4" />
-    <line x1="75" y1="35" x2="85" y2="25" stroke="url(#cubeGradient)" strokeWidth="0.5" opacity="0.4" />
-    <line x1="75" y1="85" x2="85" y2="75" stroke="url(#cubeGradient)" strokeWidth="0.5" opacity="0.4" />
-    <line x1="25" y1="85" x2="35" y2="75" stroke="url(#cubeGradient)" strokeWidth="0.5" opacity="0.4" />
+    <line x1="25" y1="35" x2="35" y2="25" stroke="url(#cubeGradient)" strokeWidth="1.5" opacity="0.7" />
+    <line x1="75" y1="35" x2="85" y2="25" stroke="url(#cubeGradient)" strokeWidth="1.5" opacity="0.7" />
+    <line x1="75" y1="85" x2="85" y2="75" stroke="url(#cubeGradient)" strokeWidth="1.5" opacity="0.7" />
+    <line x1="25" y1="85" x2="35" y2="75" stroke="url(#cubeGradient)" strokeWidth="1.5" opacity="0.7" />
   </svg>
 );
 
@@ -105,20 +105,20 @@ const WireframeOctahedron: React.FC = () => (
   <svg viewBox="0 0 100 100" className="w-full h-full">
     <defs>
       <linearGradient id="octaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="rgba(139, 92, 246, 0.3)" />
-        <stop offset="100%" stopColor="rgba(59, 130, 246, 0.2)" />
+        <stop offset="0%" stopColor="rgba(139, 92, 246, 0.7)" />
+        <stop offset="100%" stopColor="rgba(59, 130, 246, 0.6)" />
       </linearGradient>
     </defs>
     {/* Top pyramid */}
-    <path d="M 50 15 L 75 50 L 50 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="0.5" />
-    <path d="M 50 15 L 25 50 L 50 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="0.5" />
-    <path d="M 50 15 L 75 50 L 25 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="0.5" opacity="0.6" />
+    <path d="M 50 15 L 75 50 L 50 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="1.5" />
+    <path d="M 50 15 L 25 50 L 50 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="1.5" />
+    <path d="M 50 15 L 75 50 L 25 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="1.5" opacity="0.8" />
     {/* Bottom pyramid */}
-    <path d="M 50 85 L 75 50 L 50 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="0.5" />
-    <path d="M 50 85 L 25 50 L 50 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="0.5" />
-    <path d="M 50 85 L 75 50 L 25 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="0.5" opacity="0.6" />
+    <path d="M 50 85 L 75 50 L 50 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="1.5" />
+    <path d="M 50 85 L 25 50 L 50 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="1.5" />
+    <path d="M 50 85 L 75 50 L 25 50 Z" fill="none" stroke="url(#octaGradient)" strokeWidth="1.5" opacity="0.8" />
     {/* Middle square */}
-    <path d="M 25 50 L 75 50" stroke="url(#octaGradient)" strokeWidth="0.5" />
+    <path d="M 25 50 L 75 50" stroke="url(#octaGradient)" strokeWidth="1.5" />
   </svg>
 );
 
@@ -126,19 +126,19 @@ const WireframeIcosahedron: React.FC = () => (
   <svg viewBox="0 0 100 100" className="w-full h-full">
     <defs>
       <linearGradient id="icosaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="rgba(16, 185, 129, 0.25)" />
-        <stop offset="100%" stopColor="rgba(59, 130, 246, 0.2)" />
+        <stop offset="0%" stopColor="rgba(16, 185, 129, 0.7)" />
+        <stop offset="100%" stopColor="rgba(59, 130, 246, 0.6)" />
       </linearGradient>
     </defs>
     {/* Simplified icosahedron wireframe */}
-    <polygon points="50,10 30,35 70,35" fill="none" stroke="url(#icosaGradient)" strokeWidth="0.5" />
-    <polygon points="30,35 15,60 50,50" fill="none" stroke="url(#icosaGradient)" strokeWidth="0.5" />
-    <polygon points="70,35 85,60 50,50" fill="none" stroke="url(#icosaGradient)" strokeWidth="0.5" />
-    <polygon points="15,60 30,85 50,75" fill="none" stroke="url(#icosaGradient)" strokeWidth="0.5" />
-    <polygon points="85,60 70,85 50,75" fill="none" stroke="url(#icosaGradient)" strokeWidth="0.5" />
-    <polygon points="30,85 50,90 70,85" fill="none" stroke="url(#icosaGradient)" strokeWidth="0.5" />
-    <line x1="50" y1="10" x2="50" y2="50" stroke="url(#icosaGradient)" strokeWidth="0.5" opacity="0.4" />
-    <line x1="50" y1="50" x2="50" y2="75" stroke="url(#icosaGradient)" strokeWidth="0.5" opacity="0.4" />
+    <polygon points="50,10 30,35 70,35" fill="none" stroke="url(#icosaGradient)" strokeWidth="1.5" />
+    <polygon points="30,35 15,60 50,50" fill="none" stroke="url(#icosaGradient)" strokeWidth="1.5" />
+    <polygon points="70,35 85,60 50,50" fill="none" stroke="url(#icosaGradient)" strokeWidth="1.5" />
+    <polygon points="15,60 30,85 50,75" fill="none" stroke="url(#icosaGradient)" strokeWidth="1.5" />
+    <polygon points="85,60 70,85 50,75" fill="none" stroke="url(#icosaGradient)" strokeWidth="1.5" />
+    <polygon points="30,85 50,90 70,85" fill="none" stroke="url(#icosaGradient)" strokeWidth="1.5" />
+    <line x1="50" y1="10" x2="50" y2="50" stroke="url(#icosaGradient)" strokeWidth="1.5" opacity="0.7" />
+    <line x1="50" y1="50" x2="50" y2="75" stroke="url(#icosaGradient)" strokeWidth="1.5" opacity="0.7" />
   </svg>
 );
 

@@ -161,7 +161,7 @@ const Journal: React.FC = () => {
                 key={post.id}
                 className="bg-background rounded-lg border border-border overflow-hidden hover-lift shadow-sm hover:shadow-md transition-all"
               >
-                <div className="aspect-video w-full bg-muted/30 overflow-hidden relative">
+                <Link to={`/journal/${post.id}`} className="aspect-video w-full bg-muted/30 overflow-hidden relative block">
                   {post.image.startsWith('/') ? (
                     <img
                       src={post.image}
@@ -173,7 +173,7 @@ const Journal: React.FC = () => {
                       <span className="text-muted-foreground/50">Security Research</span>
                     </div>
                   )}
-                </div>
+                </Link>
                 <div className="p-6">
                   <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary inline-block mb-4">
                     {post.category}

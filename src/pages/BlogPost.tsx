@@ -28,13 +28,15 @@ const BlogPost: React.FC = () => {
     <>
       <Section className="pt-32 pb-12">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <Link
-            to="/journal"
-            className="inline-flex items-center text-muted-foreground hover:text-primary mb-8 transition-colors"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Journal
-          </Link>
+          <div className="mb-8">
+            <Link
+              to="/journal"
+              className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Journal
+            </Link>
+          </div>
 
           <span className="text-sm font-medium px-3 py-1 rounded-full bg-secondary text-secondary-foreground inline-block mb-6">
             {post.category}
