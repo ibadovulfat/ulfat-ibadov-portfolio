@@ -61,61 +61,58 @@ const TerminalResume: React.FC<TerminalResumeProps> = ({ team, onBack }) => {
     }, []);
 
     const profileContent = `
---[ LINKS
+▐ linkedin ▪ https://www.linkedin.com/in/ibadovulfat/
+▐ shadowlab ▪ https://shadowlab.about.surf
+▐ github ▪ https://github.com/ibadovulfat
 
-▐ LinkedIn ▪ https://www.linkedin.com/in/ibadovulfat/
-▐ GitHub   ▪ https://github.com/ibadovulfat
+--[ Summary
 
---[ SUMMARY
-
-I work like a real adversary - mapping attack surface across web & internal networks, 
-fingerprinting systems and probing the logic, trust, and boundaries defenders assume are safe.
+I work like a real adversary - mapping attack surface across web & internal networks, fingerprinting systems and probing the logic, trust, and boundaries defenders assume are safe.
 Flaws become footholds: parameters, sessions, protocols, misconfigs, and escalation paths.
-Once inside, I move quietly - evading controls, pivoting, chaining access, and validating 
-what's exploitable. My approach mirrors persistent threat behavior: identify weakness, 
-escalate impact, and expose risks scanners never see.
+Once inside, I move quietly - evading controls, pivoting, chaining access, and validating what’s exploitable.
+My approach mirrors persistent threat behavior: identify weakness, escalate impact, and expose risks scanners never see.
 
---[ FOCUS
+--[ Focus
 
-  • Penetration Tester
-  • Red Team Operations
-
---[ SKILLS
+ • Penetration Tester
+ • Red Team Operations
+ 
+--[ Skills
 
 ▐ red_team
-    ▪ adversary_ops (ATT&CK mapping, threat emulation, enc C2, beacon timing)
-    ▪ evasion (EDR evasion, custom loaders, process injection, AMSI awareness, parent spoofing)
-    ▪ post_exploitation (LOLBins, C2 chaining, lateral movement, AD manipulation)
+ ▪ adversary_ops (ATT&CK mapping, threat emulation, enc C2, beacon timing)
+ ▪ evasion (EDR evasion, custom loaders, process injection, AMSI awareness, parent spoofing)
+ ▪ post_exploitation (LOLBins, C2 chaining, lateral movement, AD manipulation)
 
 ▐ exploitation
-    ▪ malware_ops (in-memory execution, runtime patching, execution context manipulation)
-    ▪ vuln_research (CWE/CAPEC, CVSSv3 modelling)
-    ▪ custom_exploits (logic chains, memory corruption, priv-esc vectors)
-    ▪ reverse_engineering (PE/ELF, shellcode crafting, Ghidra/IDA workflows)
+ ▪ malware_ops (in-memory execution, runtime patching, execution context manipulation)
+ ▪ vuln_research (CWE/CAPEC, CVSSv3 modelling)
+ ▪ custom_exploits (logic chains, memory corruption, priv-esc vectors)
+ ▪ reverse_engineering (PE/ELF, shellcode crafting, Ghidra/IDA workflows)
 
 ▐ web_pentest
-    ▪ recon (subdomain enum, JS endpoint extraction, tech fingerprinting)
-    ▪ enumeration (auth flows, parameters, access control mapping)
-    ▪ fuzzing (state-based fuzzing, input mutation, logic discovery)
-    ▪ vulnerability_analysis (session/auth flaws, IDOR, SSRF, deserialization)
-    ▪ exploitation (advanced XSS/SSTI, SQLi bypasses, desync vectors, LFI→RCE chains)
+ ▪ recon (subdomain enum, JS endpoint extraction, tech fingerprinting)
+ ▪ enumeration (auth flows, parameters, access control mapping)
+ ▪ fuzzing (state-based fuzzing, input mutation, logic discovery)
+ ▪ vulnerability_analysis (session/auth flaws, IDOR, SSRF, deserialization)
+ ▪ exploitation (advanced XSS/SSTI, SQLi bypasses, desync vectors, LFI→RCE chains)
 
 ▐ network_pentest
-    ▪ recon (host discovery, mapping, service profiling)
-    ▪ enumeration (protocol inspection, auth probing, share/ACL analysis)
-    ▪ attack_surface (misconfig hunting, network segmentation testing)
-    ▪ exploitation (credential abuse, relay paths, auth weaknesses)
-    ▪ post_access (pivoting, tunneling, traffic redirection)
+ ▪ recon (host discovery, mapping, service profiling)
+ ▪ enumeration (protocol inspection, auth probing, share/ACL analysis)
+ ▪ attack_surface (misconfig hunting, network segmentation testing)
+ ▪ exploitation (credential abuse, relay paths, auth weaknesses)
+ ▪ post_access (pivoting, tunneling, traffic redirection)
 
 ▐ offensive_tooling
-    ▪ C2 frameworks (Metasploit, Cobalt Strike, Sliver, Covenant, Mythic, Havoc)
-    ▪ post-exploitation (Impacket/Rubeus; Mimikatz; LinPEAS/pspy; lateral pivots, credential extraction)
-    ▪ web_tooling (BurpSuite, smuggling analyzers, FFUF, JS deobfuscation)
-    ▪ recon/intel (Subfinder, Amass, Nuclei, Katana, OSINT automation)
+ ▪ C2 frameworks (Metasploit, Cobalt Strike, Sliver, Covenant, Mythic, Havoc)
+ ▪ post-exploitation (Impacket/Rubeus; Mimikatz; LinPEAS/pspy; lateral pivots, credential extraction)
+ ▪ web_tooling (BurpSuite, smuggling analyzers, FFUF, JS deobfuscation)
+ ▪ recon/intel (Subfinder, Amass, Nuclei, Katana, OSINT automation)
 
 ▐ programming
-    ▪ scripting (Python, Bash, PS)
-    ▪ webstack (HTML, CSS, JS, Tailwind, React)
+ ▪ scripting (Python, Bash, PS)
+ ▪ webstack (HTML, CSS, JS, Tailwind, React)
 `;
 
     // Typing animation
@@ -295,7 +292,7 @@ escalate impact, and expose risks scanners never see.
                                                     <span style={{ color: theme.promptColor }}>┌──[${theme.prompt}] - [~/profile]</span>
                                                 </div>
                                                 <div className="flex gap-2">
-                                                    <span style={{ color: theme.promptColor }}>└─$</span>
+                                                    <span style={{ color: theme.promptColor }}>└──$</span>
                                                     <span>{item}</span>
                                                 </div>
                                             </div>
@@ -308,7 +305,7 @@ escalate impact, and expose risks scanners never see.
 
                             {/* Content display */}
                             {hasStarted && (
-                                <pre className="whitespace-pre-wrap mt-4">
+                                <pre className="whitespace-pre-wrap mt-4 text-xs sm:text-sm">
                                     {displayedContent}
                                     {isTyping && <span className="terminal-cursor inline-block w-2 h-4 ml-1" style={{ backgroundColor: theme.text }} />}
                                 </pre>
@@ -321,7 +318,7 @@ escalate impact, and expose risks scanners never see.
                                         <span style={{ color: theme.promptColor }}>┌──[${theme.prompt}] - [~/profile]</span>
                                     </div>
                                     <form onSubmit={handleCommandSubmit} className="flex gap-2 items-center">
-                                        <span style={{ color: theme.promptColor }}>└─$</span>
+                                        <span style={{ color: theme.promptColor }}>└──$</span>
                                         <input
                                             ref={inputRef}
                                             type="text"
@@ -342,6 +339,7 @@ escalate impact, and expose risks scanners never see.
                                 <div className="mt-8 space-y-3 border-t border-white/10 pt-4 relative z-20">
                                     {[
                                         { label: 'LinkedIn', url: 'https://www.linkedin.com/in/ibadovulfat/', icon: ExternalLink },
+                                        { label: 'ShadowLab', url: 'https://shadowlab.about.surf', icon: ExternalLink },
                                         { label: 'GitHub', url: 'https://github.com/ibadovulfat', icon: ExternalLink }
                                     ].map((link) => (
                                         <div
