@@ -1,7 +1,7 @@
 # React Portfolio Project
 
 **Creator:** Ulfat Ibadov
-**Roles:** Full Stack Developer | GitHub Expert | Cybersecurity Expert
+**Roles:** Full Stack Developer
 **LinkedIn:** [Ulfat Ibadov](https://www.linkedin.com/in/ibadovulfat/)
 **Live Site:** [https://about.surf/](https://about.surf/)
 
