@@ -41,12 +41,12 @@ const featuredProjects = [
   },
   {
     id: 2,
-    title: "ShadowLab Defender",
+    title: "ShadowLab",
     category: "Labs",
-    description: "AI-driven behavioral telemetry lab for Microsoft Defender and EDR detection research.",
-    tags: ["EDR", "Behavioral Detection", "Telemetry", "Offensive Security", "Machine Learning"],
+    description: "Windows-focused cybersecurity investigation platform built for behavioral monitoring, threat hunting, incident triage, and response-oriented defensive workflows.",
+    tags: ["Behavioral Detection", "Threat Hunting", "Incident Response", "EDR"],
     image: "/upload/proje.jpeg",
-    url: "https://github.com/ibadovulfat/shadowlab-detection-lab"
+    url: "https://shadowlab.about.surf/"
   },
   {
     id: 3,

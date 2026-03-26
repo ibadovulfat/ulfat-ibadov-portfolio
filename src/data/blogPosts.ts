@@ -206,105 +206,121 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 10,
-    title: "ShadowLab Defender Web Simulator",
-    excerpt: "An ethical, lab-only behavioral research platform designed to study how Microsoft Defender and modern EDR solutions interpret system behavior.",
-    date: "January 2026",
+    title: "ShadowLab",
+    excerpt: "An API-first Windows security operations and research platform for telemetry, process investigation, ATT&CK-aware detection, enterprise casework, and controlled response workflows.",
+    date: "March 2026",
     author: "Ulfat Ibadov",
-    readTime: "10 min read",
+    readTime: "12 min read",
     category: "Security Research",
     image: "/upload/proje.jpeg",
     content: `
-      <h2>ShadowLab Defender: Behavioral Research Platform</h2>
-      <p class="text-sm text-yellow-600 bg-yellow-100 p-2 rounded mb-4 border border-yellow-200"><strong>Note:</strong> Usage requires explicit permission from the author. Created by Ulfat Ibadov.</p>
+      <h2>ShadowLab: API-First Windows Security Operations Lab</h2>
+      <p class="text-sm text-yellow-600 bg-yellow-100 p-2 rounded mb-4 border border-yellow-200"><strong>Note:</strong> This project is intended strictly for owned, isolated, and authorized lab environments. Usage requires explicit permission from the author. Created by Ulfat Ibadov.</p>
 
-      <p>ShadowLab Defender Web Simulator is an ethical, lab-only behavioral research platform designed to study how Microsoft Defender and modern EDR solutions interpret system behavior through local telemetry, Windows security event logs, and an AI-assisted behavioral scoring engine.</p>
+      <p>ShadowLab is an API-first Windows security operations and research platform built for telemetry collection, process investigation, detection engineering, case-driven triage, and controlled response in local lab environments.</p>
+
+      <p>The project evolved from a dashboard-style prototype into a more complete platform with a FastAPI backend, a native PySide6 desktop client, modular services, RBAC-aware APIs, and an investigation workflow designed to feel closer to a real security product than a simple demo panel.</p>
       
-      <p class="font-medium text-lg my-4">No bypass. No exploit. No payload.<br/>This project focuses on behavioral visibility and defensive understanding, not evasion.</p>
+      <p class="font-medium text-lg my-4">This is not a bypass or exploitation project. Its purpose is to study host behavior, investigation workflows, signal enrichment, and analyst-facing response operations in controlled environments.</p>
 
       <h3>What Is ShadowLab?</h3>
-      <p>ShadowLab is a comprehensive behavioral security platform designed for both defensive research (Blue Team) and controlled offensive simulation (Red Team).</p>
-      
-      <p>It provides a high-fidelity behavioral detection environment that replicates how:</p>
+      <p>ShadowLab is a defensive cybersecurity research platform designed around Windows-oriented investigation workflows. It brings together:</p>
       <ul class="list-disc pl-6 mb-4">
-        <li>Legitimate users and adversarial actors interact with the system.</li>
-        <li>Modern EDR/AV solutions (like Microsoft Defender) interpret various telemetry signals.</li>
-        <li>Security analysts can hunt for persistence, analyze internals, and take active response actions.</li>
+        <li>Host telemetry, event visibility, and incident artifact collection</li>
+        <li>Process intelligence with command-line, hash, signature, tree, and memory-analysis context</li>
+        <li>Persistence hunting, remediation, rollback, and quarantine workflows</li>
+        <li>Layered YARA triage with YARAify, local rules, and memory-focused rule packs</li>
+        <li>Threat-intelligence enrichment for suspicious hashes and IPs</li>
+        <li>Timeline, graph, evidence, history, and artifact management</li>
+        <li>Enterprise case handling with tasks, notes, stories, assignments, and reporting</li>
+        <li>Controlled deception workflows such as honeypots, canaries, and evidence capture</li>
       </ul>
-      <p>By combining defensive monitoring with controlled offensive modules (like ARP spoofing and stress scenarios), it allows for full-spectrum defensive understanding-seeing the attack, the telemetry it generates, and the response it requires.</p>
+      <p>Rather than acting as a passive dashboard, ShadowLab is built as an operator-facing investigation surface where detections, context, triage, ATT&amp;CK mapping, and response are handled in one workflow.</p>
 
       <h3>Purpose</h3>
-      <p>ShadowLab was developed as part of an Advanced Cybersecurity Portfolio to demonstrate a holistic range of applied offensive and defensive research skills, including:</p>
+      <p>ShadowLab was developed as part of an advanced cybersecurity portfolio to demonstrate applied security engineering across multiple areas, including:</p>
       <ul class="list-disc pl-6 mb-4">
-        <li><strong>Advanced Behavioral Detection:</strong> Monitoring and scoring complex process activities.</li>
-        <li><strong>Forensic Internals:</strong> Deep-dive analysis of process memory, handles, and loaded modules.</li>
-        <li><strong>Incident Response:</strong> Implementation of active mitigation (Suspend/Kill) and audit logging.</li>
-        <li><strong>Deception Technology:</strong> Deploying and monitoring honeypots and ransomware canary files.</li>
-        <li><strong>Threat Intelligence:</strong> Automated correlation of telemetry with VirusTotal, AbuseIPDB, and MITRE ATT&CK.</li>
-        <li><strong>Offensive Network Warfare:</strong> Mastering layer-2 discovery and ARP spoofing from a defensive perspective.</li>
-        <li><strong>Generative AI Analysis:</strong> Integrating LLMs for contextual threat explainability.</li>
+        <li>Behavioral detection and rule-based scoring</li>
+        <li>Process investigation and forensic visibility</li>
+        <li>Persistence analysis and remediation workflows</li>
+        <li>Threat-intelligence correlation</li>
+        <li>Incident triage, enterprise case management, and response orchestration</li>
+        <li>MITRE ATT&amp;CK lifecycle, coverage, and technique-aware investigation mapping</li>
+        <li>WHIDS and HIDS integration for multi-source visibility</li>
+        <li>Deception-based defensive controls</li>
+        <li>Desktop product design for cybersecurity operations</li>
+        <li>API-first architecture for extensibility, auth enforcement, and future automation paths</li>
       </ul>
-      <p>All activity is conducted strictly for research and educational purposes in isolated lab environments.</p>
+      <p>The project reflects a product-oriented security engineering approach rather than a proof-of-concept dashboard.</p>
 
-      <h3>How It Works (High-Level)</h3>
-      <p>ShadowLab operates as a continuous behavioral analysis pipeline:</p>
+      <h3>How It Works</h3>
+      <p>ShadowLab operates as a modular investigation pipeline:</p>
 
       <div class="space-y-4 my-6">
         <div>
-          <h4 class="font-bold text-primary">1. Telemetry & Deep Internals</h4>
-          <p>Live monitoring of CPU, RAM, Disk, and Network telemetry via psutil. Enumeration of open Handles (Files/Sockets) and loaded Modules (DLL/dylib). Printable ASCII/Unicode extraction from binaries using String Inspector.</p>
+          <h4 class="font-bold text-primary">1. Telemetry and Process Visibility</h4>
+          <p>ShadowLab collects behavioral and system-level telemetry, tracks incidents and artifacts, and surfaces process metadata such as hashes, signer state, command-line context, tree relationships, and host-level signals useful to analysts.</p>
         </div>
         
         <div>
-          <h4 class="font-bold text-primary">2. Advanced Threat Hunting</h4>
-          <p>Interactive parent-child relationship visualization via pyvis. Deep scanning of process binaries using custom weaponized YARA rules. Real-time packet capture and DNS query analysis via scapy.</p>
+          <h4 class="font-bold text-primary">2. Investigation and Hunt Workflows</h4>
+          <p>Operators can inspect process internals, extract strings, review trees, trigger layered YARA scans, enrich artifacts with external intelligence, and pivot through graph and timeline views to understand suspicious behavior faster.</p>
         </div>
         
         <div>
-          <h4 class="font-bold text-primary">3. Enterprise Defense & AI</h4>
-          <p><strong>Deception (Honeypot):</strong> Hidden honey-files that trigger immediate alerts on access.<br/>
-          <strong>Ransomware Canary:</strong> Watchdog-monitored decoy files to detect unauthorized encryption.<br/>
-          <strong>AI Analyst (GenAI):</strong> LLM-powered interpretation of process behavior for better explainability.</p>
+          <h4 class="font-bold text-primary">3. Incident and Response Operations</h4>
+          <p>The platform supports incident creation, ownership and status tracking, quarantine handling, persistence review, evidence retention, and controlled response actions such as suspend, kill, kill-tree, and supported remediation workflows.</p>
         </div>
         
         <div>
-          <h4 class="font-bold text-primary">4. Network Warfare (Red Team)</h4>
-          <p><strong>ARP Discovery:</strong> Local subnet scanner to discover connected devices (Phones, IoT, PCs).<br/>
-          <strong>WiFi Kicker:</strong> Targeted ARP Spoofing to disconnect specific devices from the network.</p>
+          <h4 class="font-bold text-primary">4. Enterprise and ATT&amp;CK Context</h4>
+          <p>ShadowLab also includes enterprise investigation workflows with case boards, tasks, notes, stories, saved views, and ATT&amp;CK lifecycle support for bundle loading, coverage review, tactic heat, and export-oriented reporting.</p>
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-primary">5. Deception and Evidence Collection</h4>
+          <p>Controlled deception workflows such as honeypots, canaries, and evidence lockers support defensive experimentation and lab-based incident simulation without turning the platform into an offensive toolkit.</p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-primary">6. Platform Architecture</h4>
+          <p>The project follows an API-first model:<br/>FastAPI powers the backend, PySide6 provides the native desktop interface, and modular services handle telemetry, graph correlation, reporting, response, and enterprise logic. This makes the platform easier to extend and closer to a production-minded SOC workstation.</p>
         </div>
       </div>
+
+      <h3>Current Desktop Surface</h3>
+      <p>The latest desktop workflow spans dashboards, process investigation, persistence, threat intel, static analysis, deception, network visibility, hosts, graph, timeline, quarantine, artifacts, enterprise operations, security ops, and scenario-oriented analysis views.</p>
 
       <h3>Technical Features & Stack</h3>
-      <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm my-4 bg-muted/20 p-4 rounded border border-border">
-        <li><strong>Traffic Analysis:</strong> Scapy (ARP/ICMP/TCP engineering)</li>
-        <li><strong>Malware Signatures:</strong> YARA</li>
-        <li><strong>Host Telemetry:</strong> psutil</li>
-        <li><strong>Visuals:</strong> Pyvis (Dynamic Graphviz)</li>
-        <li><strong>Forensics:</strong> Watchdog, PyAutoGUI</li>
-        <li><strong>MITRE ATT&CK:</strong> Automatic event correlation</li>
-        <li><strong>Anomaly Detection:</strong> Z-Score based outlier detection</li>
-        <li><strong>Response:</strong> Active Suspend/Kill/Resume actions</li>
-      </ul>
-
-      <h3>Live Demo (Live Research Preview)</h3>
-      <p>A live demonstration is available on YouTube:</p>
-      
-      <div class="my-6 p-4 bg-muted/30 rounded border border-border text-center">
-        <a href="https://www.youtube.com/watch?v=SchoX-Gfajg" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-primary hover:underline font-bold text-lg">
-          🔗 Watch ShadowLab Defender Demo
-        </a>
+      <div class="my-4 bg-muted/20 p-4 rounded border border-border">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 text-sm">
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>API-first backend with FastAPI</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>Native desktop client with PySide6</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>RBAC-aware auth model with viewer, analyst, and admin roles</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>Process intelligence and behavioral inspection</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>Threat intel integration and artifact enrichment</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>Layered YARA scanning with local, community, and memory-focused rule packs</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>Persistence discovery and remediation workflows</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>Timeline, graph, host, artifact, and quarantine views</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>MITRE ATT&amp;CK coverage, bundle lifecycle, and export flows</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>WHIDS and OSSEC/HIDS ingest and enterprise correlation</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>Deception workflows with honeypots and canaries</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>Case workflow, reporting, and executive investigation exports</span></div>
+          <div class="flex items-start gap-3"><span class="mt-1 text-primary">•</span><span>SQLite default with PostgreSQL-ready persistence support</span></div>
+        </div>
       </div>
 
-      <div class="bg-card border border-border rounded-lg p-6 mt-8">
-        <h4 class="font-mono font-bold mb-4">Quickstart</h4>
-        <pre class="bg-muted p-4 rounded overflow-x-auto text-sm font-mono text-foreground">
-python -m venv venv
-# Windows
-venv\\Scripts\\activate
-# Linux / macOS
-source venv/bin/activate
+      <p class="text-sm bg-muted/30 p-4 rounded border border-border">
+        <strong>Tech Stack:</strong> Python, FastAPI, Uvicorn, PySide6, SQLite, PostgreSQL support, YAML, YARA, psutil, Requests, Pandas, NumPy, Plotly, Matplotlib, pyvis, ReportLab, Docker, WHIDS integrations, OSSEC/HIDS integrations, and ATT&amp;CK-oriented investigation/export workflows
+      </p>
 
-pip install -r requirements.txt
-streamlit run app.py</pre>
+      <div class="my-6 p-4 bg-muted/30 rounded border border-border text-center flex flex-col gap-3">
+        <a href="https://shadowlab.about.surf/" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center items-center text-primary hover:underline font-bold text-lg">
+          🔗 ShadowLab Site
+        </a>
+        <a href="https://github.com/ibadovulfat/shadowlab-detection-lab" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center items-center text-primary hover:underline font-bold text-lg">
+          🔗 GitHub Repository
+        </a>
       </div>
     `
   },
