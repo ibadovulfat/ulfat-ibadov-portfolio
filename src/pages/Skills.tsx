@@ -1,3 +1,4 @@
+import PageHero from '@/components/UI/PageHero';
 import React, { useState } from "react";
 import Section from "@/components/UI/Section";
 import ParallaxEffect from "@/components/UI/ParallaxEffect";
@@ -175,21 +176,11 @@ const Skills: React.FC = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <Section fullHeight className="flex items-center justify-center">
-        <div className="max-w-4xl mx-auto text-center">
-          <ParallaxEffect speed={0.1} direction="up">
-            <span className="text-sm font-medium px-3 py-1 rounded-full bg-secondary text-secondary-foreground inline-block mb-4">
-              Skills
-            </span>
-            <h1 className="section-heading mb-6">
-              Offensive Security Arsenal
-            </h1>
-            <p className="section-subheading max-w-2xl mx-auto">
-              Comprehensive expertise across red teaming, exploitation, and penetration testing disciplines.
-            </p>
-          </ParallaxEffect>
-        </div>
-      </Section>
+      <PageHero
+        eyebrow="Skills"
+        title={<>Offensive Security <span className="text-red-500">Arsenal</span></>}
+        subtitle="Comprehensive expertise across red teaming, exploitation, and penetration testing disciplines."
+      />
 
       {/* Terminal Skills Section */}
       <Section className="py-24">

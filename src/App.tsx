@@ -3,7 +3,7 @@ import { Toaster } from "@/components/UI/toaster";
 import { Toaster as Sonner } from "@/components/UI/sonner";
 import { TooltipProvider } from "@/components/UI/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import { ThemeProvider } from "./components/ThemeProvider";
 import Layout from "./components/Layout/Layout";
 import Index from "./pages/Index";
@@ -21,6 +21,12 @@ import AccessDenied from "./pages/AccessDenied";
 
 const queryClient = new QueryClient();
 
+// Redirect legacy /journal/:id links to /blog/:id, preserving the post id
+const LegacyBlogRedirect = () => {
+  const { id } = useParams();
+  return <Navigate to={`/blog/${id}`} replace />;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="light">
@@ -35,8 +41,11 @@ const App = () => (
               <Route path="/services" element={<Services />} />
               <Route path="/resume" element={<Resume />} />
               <Route path="/skills" element={<Skills />} />
-              <Route path="/journal" element={<Journal />} />
-              <Route path="/journal/:id" element={<BlogPost />} />
+              <Route path="/blog" element={<Journal />} />
+              <Route path="/blog/:id" element={<BlogPost />} />
+              {/* Legacy /journal paths → /blog */}
+              <Route path="/journal" element={<Navigate to="/blog" replace />} />
+              <Route path="/journal/:id" element={<LegacyBlogRedirect />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/red-team-showcase" element={<RedTeamShowcase />} />
               <Route path="/terminal-resume" element={<TerminalResumePage />} />

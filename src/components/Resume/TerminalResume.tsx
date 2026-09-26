@@ -1,11 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, Copy, CheckCircle, Minimize2, Maximize2 } from 'lucide-react';
+import { ExternalLink, Copy, CheckCircle, Minimize2, Maximize2, TerminalSquare } from 'lucide-react';
 import AttackMap from './AttackMap';
 
 interface TerminalResumeProps {
     team: 'red' | 'blue';
     onBack: () => void;
 }
+
+const linkify = (text: string) => {
+    const parts = text.split(/(https?:\/\/[^\s]+)/g);
+    return parts.map((part, i) =>
+        /^https?:\/\//.test(part) ? (
+            <a
+                key={i}
+                href={part}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="underline decoration-dotted underline-offset-2 hover:opacity-80 transition-opacity"
+                style={{ color: '#60a5fa' }}
+            >
+                {part}
+            </a>
+        ) : (
+            <React.Fragment key={i}>{part}</React.Fragment>
+        )
+    );
+};
 
 const TerminalResume: React.FC<TerminalResumeProps> = ({ team, onBack }) => {
     const [isTyping, setIsTyping] = useState(false);
@@ -24,7 +45,11 @@ const TerminalResume: React.FC<TerminalResumeProps> = ({ team, onBack }) => {
         primary: '#ef4444',
         secondary: '#dc2626',
         accent: '#f87171',
-        text: '#10b981',
+        text: '#d4d4d8',
+        muted: '#71717a',
+        green: '#22c55e',
+        blue: '#60a5fa',
+        cyan: '#22d3ee',
         prompt: 'root@ulfat.ibadov',
         promptColor: '#ef4444',
         bg: 'from-red-950/20 to-black',
@@ -63,8 +88,9 @@ const TerminalResume: React.FC<TerminalResumeProps> = ({ team, onBack }) => {
     const profileContent = `
 --[ LINKS
 
-▐ LinkedIn ▪ https://www.linkedin.com/in/ibadovulfat/
-▐ GitHub   ▪ https://github.com/ibadovulfat
+▐ LinkedIn  ▪ https://www.linkedin.com/in/ibadovulfat/
+▐ GitHub    ▪ https://github.com/ibadovulfat
+▐ ShadowLab ▪ https://shadowlab.about.surf
 
 --[ SUMMARY
 
@@ -195,18 +221,19 @@ escalate impact, and expose risks scanners never see.
             <AttackMap opacity={0.3} />
 
             <div
-                className={`relative ${isFullscreen ? 'fixed inset-0 w-full h-full m-0 rounded-none z-[10000]' : 'z-10 w-[calc(100%-2rem)] md:w-full md:max-w-6xl h-[90vh] mx-4'} flex flex-col rounded-lg overflow-hidden transition-all duration-300 bg-black/90`}
+                className={`relative ${isFullscreen ? 'fixed inset-0 w-full h-full m-0 rounded-none z-[10000]' : 'z-10 w-[calc(100%-2rem)] md:w-full md:max-w-6xl h-[90vh] mx-4'} flex flex-col rounded-xl overflow-hidden transition-all duration-300`}
                 style={{
-                    boxShadow: isFullscreen ? 'none' : `0 0 40px ${theme.glow}, 0 0 50px ${theme.glow}`,
-                    border: isFullscreen ? 'none' : `1px solid ${theme.primary}`
+                    backgroundColor: '#0b0b0e',
+                    boxShadow: isFullscreen ? 'none' : '0 30px 90px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06)',
+                    border: isFullscreen ? 'none' : '1px solid rgba(255,255,255,0.08)'
                 }}
             >
                 {/* Fixed Top Bar */}
                 <div
                     className="flex-none flex items-center justify-between px-3 md:px-4 py-3 border-b relative z-[60]"
                     style={{
-                        backgroundColor: 'rgba(5, 5, 5, 0.95)',
-                        borderColor: theme.primary
+                        backgroundColor: '#161619',
+                        borderColor: 'rgba(255,255,255,0.07)'
                     }}
                     onClick={(e) => e.stopPropagation()} // Prevent clicking header from focusing input
                 >
@@ -232,8 +259,13 @@ escalate impact, and expose risks scanners never see.
                         >
                             <span className="opacity-0 group-hover:opacity-100 text-[8px] md:text-[10px] text-white font-bold pointer-events-none">+</span>
                         </button>
-                        <span className="ml-2 md:ml-4 text-xs md:text-sm font-mono truncate max-w-[150px] md:max-w-full" style={{ color: theme.text }}>
-                            {theme.prompt}:~/profile
+                    </div>
+
+                    {/* Centered title */}
+                    <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none">
+                        <TerminalSquare className="h-3.5 w-3.5" style={{ color: theme.muted }} />
+                        <span className="text-xs md:text-sm font-mono truncate max-w-[160px] md:max-w-full" style={{ color: theme.muted }}>
+                            {theme.prompt} - ~/profile - zsh
                         </span>
                     </div>
 
@@ -260,7 +292,7 @@ escalate impact, and expose risks scanners never see.
 
                 <div
                     ref={terminalRef}
-                    className="p-6 h-full overflow-y-auto font-mono text-sm bg-black/90 relative pb-24"
+                    className="px-5 md:px-7 py-6 flex-1 min-h-0 overflow-y-auto font-mono text-[13px] leading-relaxed bg-transparent relative pb-10"
                     style={{ color: theme.text }}
                 >
                     <div className="scanlines-overlay" />
@@ -268,10 +300,15 @@ escalate impact, and expose risks scanners never see.
                     {/* SSH Connection Simulation */}
                     {isConnecting ? (
                         <div className="space-y-1">
-                            {connectionLogs.map((log, i) => (
-                                <div key={i} className="animate-fade-in">{log}</div>
-                            ))}
-                            <div className="inline-block w-2 h-4 bg-green-500 animate-pulse mt-2" />
+                            {connectionLogs.map((log, i) => {
+                                const line = log ?? '';
+                                let color = theme.muted;
+                                if (line.startsWith('Welcome')) color = theme.green;
+                                else if (line.startsWith('[!]')) color = theme.primary;
+                                else if (line.startsWith('Public key') || line.startsWith('Authenticating')) color = theme.text;
+                                return <div key={i} className="animate-fade-in" style={{ color }}>{line}</div>;
+                            })}
+                            <span className="inline-block w-2 h-4 align-middle animate-pulse mt-2" style={{ backgroundColor: theme.green }} />
                         </div>
                     ) : (
                         <>
@@ -291,12 +328,16 @@ escalate impact, and expose risks scanners never see.
                                     <div key={i} className="mb-1">
                                         {item.includes('cat Profile') || item === 'whoami' || item === 'ls -la' || item === 'ls' || item === 'help' || item === 'sudo su' || item === 'sudo' ? (
                                             <div className="mt-4">
-                                                <div className="flex gap-2">
-                                                    <span style={{ color: theme.promptColor }}>┌──[${theme.prompt}] - [~/profile]</span>
+                                                <div className="flex gap-0">
+                                                    <span style={{ color: theme.muted }}>┌──[</span>
+                                                    <span style={{ color: theme.green }}>{theme.prompt}</span>
+                                                    <span style={{ color: theme.muted }}>]─[</span>
+                                                    <span style={{ color: theme.blue }}>~/profile</span>
+                                                    <span style={{ color: theme.muted }}>]</span>
                                                 </div>
                                                 <div className="flex gap-2">
-                                                    <span style={{ color: theme.promptColor }}>└─$</span>
-                                                    <span>{item}</span>
+                                                    <span style={{ color: theme.primary }}>└─$</span>
+                                                    <span style={{ color: theme.text }}>{item}</span>
                                                 </div>
                                             </div>
                                         ) : (
@@ -309,7 +350,7 @@ escalate impact, and expose risks scanners never see.
                             {/* Content display */}
                             {hasStarted && (
                                 <pre className="whitespace-pre-wrap mt-4">
-                                    {displayedContent}
+                                    {linkify(displayedContent)}
                                     {isTyping && <span className="terminal-cursor inline-block w-2 h-4 ml-1" style={{ backgroundColor: theme.text }} />}
                                 </pre>
                             )}
@@ -317,11 +358,15 @@ escalate impact, and expose risks scanners never see.
                             {/* Current Command Line */}
                             {!isTyping && (
                                 <div className="mt-4">
-                                    <div className="flex gap-2">
-                                        <span style={{ color: theme.promptColor }}>┌──[${theme.prompt}] - [~/profile]</span>
+                                    <div className="flex gap-0">
+                                        <span style={{ color: theme.muted }}>┌──[</span>
+                                        <span style={{ color: theme.green }}>{theme.prompt}</span>
+                                        <span style={{ color: theme.muted }}>]─[</span>
+                                        <span style={{ color: theme.blue }}>~/profile</span>
+                                        <span style={{ color: theme.muted }}>]</span>
                                     </div>
                                     <form onSubmit={handleCommandSubmit} className="flex gap-2 items-center">
-                                        <span style={{ color: theme.promptColor }}>└─$</span>
+                                        <span style={{ color: theme.primary }}>└─$</span>
                                         <input
                                             ref={inputRef}
                                             type="text"
@@ -337,53 +382,27 @@ escalate impact, and expose risks scanners never see.
                                 </div>
                             )}
 
-                            {/* Links */}
-                            {!isTyping && hasStarted && (
-                                <div className="mt-8 space-y-3 border-t border-white/10 pt-4 relative z-20">
-                                    {[
-                                        { label: 'LinkedIn', url: 'https://www.linkedin.com/in/ibadovulfat/', icon: ExternalLink },
-                                        { label: 'GitHub', url: 'https://github.com/ibadovulfat', icon: ExternalLink }
-                                    ].map((link) => (
-                                        <div
-                                            key={link.label}
-                                            className="flex items-center justify-between group bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 rounded-md p-3 transition-all cursor-pointer"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                window.open(link.url, '_blank');
-                                            }}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <link.icon className="h-4 w-4" style={{ color: theme.primary }} />
-                                                <span className="font-bold text-base" style={{ color: theme.text }}>{link.label}</span>
-                                            </div>
-
-                                            <div className="flex items-center gap-2">
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        copyLink(link.url);
-                                                    }}
-                                                    className="p-2 rounded hover:bg-white/10 transition-colors"
-                                                    style={{ color: theme.accent }}
-                                                    title="Copy URL"
-                                                >
-                                                    {copiedLink === link.url ? (
-                                                        <CheckCircle className="h-4 w-4" />
-                                                    ) : (
-                                                        <Copy className="h-4 w-4" />
-                                                    )}
-                                                </button>
-                                                <ExternalLink className="h-4 w-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
                         </>
                     )}
                 </div>
 
-                <div className="absolute inset-0 pointer-events-none opacity-30" style={{ boxShadow: `inset 0 0 100px ${theme.glow}` }} />
+                {/* Status bar */}
+                <div
+                    className="flex-none flex items-center text-[11px] font-mono select-none"
+                    style={{ backgroundColor: '#161619', borderTop: '1px solid rgba(255,255,255,0.07)' }}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <span className="px-3 py-1.5 font-semibold text-white" style={{ backgroundColor: theme.primary }}>
+                        {isConnecting ? 'CONNECTING' : 'ONLINE'}
+                    </span>
+                    <span className="px-3 py-1.5" style={{ color: theme.muted }}>~/profile</span>
+                    <span className="flex-1" />
+                    <span className="px-3 py-1.5 hidden sm:inline" style={{ color: theme.muted }}>UTF-8</span>
+                    <span className="px-3 py-1.5 hidden sm:inline" style={{ color: theme.muted }}>zsh</span>
+                    <span className="px-3 py-1.5" style={{ color: theme.green }}>● secure</span>
+                </div>
+
+                <div className="absolute inset-x-0 top-0 h-40 pointer-events-none" style={{ background: 'radial-gradient(60% 100% at 50% 0%, rgba(239,68,68,0.06), transparent 70%)' }} />
             </div>
 
             <style>{`
@@ -400,8 +419,9 @@ escalate impact, and expose risks scanners never see.
         .terminal-cursor { animation: blink 1s infinite; }
         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
         .overflow-y-auto::-webkit-scrollbar { width: 8px; }
-        .overflow-y-auto::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.5); }
-        .overflow-y-auto::-webkit-scrollbar-thumb { background: ${theme.primary}; border-radius: 4px; }
+        .overflow-y-auto::-webkit-scrollbar-track { background: transparent; }
+        .overflow-y-auto::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
       `}</style>
         </div>
     );

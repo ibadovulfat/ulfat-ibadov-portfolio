@@ -1,3 +1,5 @@
+import Seo from '@/components/SEO/Seo';
+import PageHero from '@/components/UI/PageHero';
 import React, { useState, useRef } from "react";
 import { Send, Mail, MapPin, Linkedin, Github } from "lucide-react";
 import emailjs from "@emailjs/browser";
@@ -90,24 +92,18 @@ const Contact: React.FC = () => {
 
   return (
     <>
+      <Seo
+        title="Contact | Hire Ulfat Ibadov - Penetration Tester & Red Teamer"
+        description="Get in touch with Ulfat Ibadov for penetration testing, red team engagements, and security consulting. Available for offensive security projects."
+        path="/contact"
+        keywords="hire penetration tester, contact red team, security consulting, offensive security engagement"
+      />
       {/* Hero Section */}
-      <Section
-        fullHeight
-        className="flex items-center justify-center animate-fade-in"
-      >
-        <div className="max-w-4xl mx-auto text-center">
-          <ParallaxEffect speed={0.1} direction="up">
-            <span className="text-sm font-medium px-3 py-1 rounded-full bg-secondary text-secondary-foreground inline-block mb-4">
-              Contact
-            </span>
-            <h1 className="section-heading mb-6">Let's Connect</h1>
-            <p className="section-subheading max-w-2xl mx-auto">
-              I'm available to discuss cybersecurity solutions, penetration
-              testing services, or any security concerns you may have.
-            </p>
-          </ParallaxEffect>
-        </div>
-      </Section>
+      <PageHero
+        eyebrow="Contact"
+        title={<>Let's <span className="text-red-500">Connect</span></>}
+        subtitle="I'm available to discuss cybersecurity solutions, penetration testing services, or any security concerns you may have."
+      />
 
       {/* Contact Form Section */}
       <Section className="py-24 animate-fade-in" id="contactForm">

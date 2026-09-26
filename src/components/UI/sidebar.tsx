@@ -26,7 +26,7 @@ import {
   SIDEBAR_KEYBOARD_SHORTCUT,
 } from "@/lib/sidebar-constants"
 
-import { SidebarContext, type SidebarContext, useSidebar } from "@/hooks/use-sidebar"
+import { SidebarContext, type SidebarContextValue, useSidebar } from "@/hooks/use-sidebar"
 
 const SidebarProvider = React.forwardRef<
   HTMLDivElement,
@@ -97,7 +97,7 @@ const SidebarProvider = React.forwardRef<
     // This makes it easier to style the sidebar with Tailwind classes.
     const state = open ? "expanded" : "collapsed"
 
-    const contextValue = React.useMemo<SidebarContext>(
+    const contextValue = React.useMemo<SidebarContextValue>(
       () => ({
         state,
         open,

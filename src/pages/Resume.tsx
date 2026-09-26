@@ -1,10 +1,49 @@
+import PageHero from '@/components/UI/PageHero';
 import React, { useState } from "react";
 import Section from "@/components/UI/Section";
 import ParallaxEffect from "@/components/UI/ParallaxEffect";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
-import { Briefcase, GraduationCap, Download, Shield, Bug, Terminal, Code, Palette } from "lucide-react";
+import { Briefcase, GraduationCap, Download, Bug, Terminal, Crosshair, Binary, HeartHandshake, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+
+interface TimelineItemProps {
+  period?: string;
+  title: string;
+  subtitle: string;
+  meta?: string[];
+  description: string;
+  link?: { url: string; label: string };
+}
+
+const TimelineItem: React.FC<TimelineItemProps> = ({ period, title, subtitle, meta = [], description, link }) => (
+  <div className="mb-12 relative pl-8 border-l-2 border-muted/50 pb-2">
+    <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-primary/20 border-4 border-background"></div>
+    {period && <div className="mb-1 text-sm text-muted-foreground">{period}</div>}
+    <h3 className="text-xl font-display font-semibold mb-1">{title}</h3>
+    <div className="flex flex-wrap items-center mb-4">
+      <span className="font-medium">{subtitle}</span>
+      {meta.map((m) => (
+        <React.Fragment key={m}>
+          <span className="mx-2 text-muted-foreground">•</span>
+          <span className="text-muted-foreground">{m}</span>
+        </React.Fragment>
+      ))}
+    </div>
+    <p className="text-muted-foreground">{description}</p>
+    {link && (
+      <a
+        href={link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center mt-3 text-sm font-medium text-primary hover:underline"
+      >
+        <ExternalLink className="mr-1.5 h-4 w-4" />
+        {link.label}
+      </a>
+    )}
+  </div>
+);
 
 const Resume: React.FC = () => {
   const [activeTab, setActiveTab] = useState("work");
@@ -27,30 +66,20 @@ const Resume: React.FC = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <Section fullHeight className="flex items-center justify-center overflow-x-hidden animate-fade-in">
-        <div className="max-w-4xl mx-auto text-center px-4">
-          <ParallaxEffect speed={0.1} direction="up">
-            <span className="text-sm font-medium px-3 py-1 rounded-full bg-secondary text-secondary-foreground inline-block mb-4">
-              Resume
-            </span>
-            <h1 className="section-heading mb-6">
-              Cybersecurity Experience & Education
-            </h1>
-            <p className="section-subheading max-w-2xl mx-auto">
-              A comprehensive overview of my professional journey in penetration testing, ethical hacking, and cybersecurity.
-            </p>
-            <div className="flex justify-center mt-8">
-              <button
-                onClick={handleDownloadClick}
-                className="inline-flex items-center px-4 py-2 border border-input bg-background hover:bg-accent transition-all duration-300 rounded-md text-sm font-medium"
-              >
-                <Download className="mr-2 h-4 w-4" />
-                Download Resume
-              </button>
-            </div>
-          </ParallaxEffect>
-        </div>
-      </Section>
+      <PageHero
+        eyebrow="Resume"
+        title={<>Cybersecurity <span className="text-red-500">Experience</span> & Education</>}
+        subtitle="A comprehensive overview of my professional journey in penetration testing, ethical hacking, and cybersecurity."
+        scrollCue={false}
+      >
+        <button
+          onClick={handleDownloadClick}
+          className="inline-flex items-center px-5 py-2.5 border border-input bg-background hover:bg-accent transition-all duration-300 rounded-md text-sm font-medium"
+        >
+          <Download className="mr-2 h-4 w-4" />
+          View Terminal Resume
+        </button>
+      </PageHero>
 
       {/* Resume Tabs */}
       <Section className="py-20 overflow-x-hidden animate-fade-in">
@@ -77,71 +106,81 @@ const Resume: React.FC = () => {
           {/* Work Experience Tab */}
           <TabsContent value="work" className="mt-0">
             <div className="max-w-3xl mx-auto">
+              <h2 className="text-2xl font-display font-semibold mb-8 flex items-center">
+                <Briefcase className="mr-2 h-5 w-5 text-primary" />
+                Experience
+              </h2>
               {[
                 {
-                  role: "Cybersecurity Career Mentor (Self-employed)",
-                  company: "Ec-Council",
-                  location: "Remote",
-                  period: "2025 - Present",
-                  description: "Recognized by EC-Council as a Cybersecurity Career Mentor, providing structured guidance to aspiring professionals in building practical offensive security skills and career paths in cybersecurity.",
-                  achievements: [
-                    "Mentored candidates on CEH, CEH Practical, CEH Master, and W|AHS certifications with a focus on real-world exam readiness",
-                    "Provided hands-on guidance in penetration testing, bug bounty methodologies, and offensive security fundamentals",
-                    "Supported learners through real-world labs, custom training paths, and practical skill development"
-                  ]
-                },
-
-                {
-                  role: "Bug Bounty Hunter",
-                  company: "HackerOne",
-                  location: "Remote",
-                  period: "2024 - Present",
-                  description: "Working as an independent security researcher identifying and reporting vulnerabilities in web applications, APIs, and network infrastructure for various organizations.",
-                  achievements: [
-                    "Discovered and reported critical security vulnerabilities to major tech companies",
-                    "Specialized in finding OWASP Top 10 vulnerabilities, including SQLi, XSS, and CSRF",
-                    "Developed custom scripts and tools to automate parts of the testing process"
-                  ]
-                },
-
-                {
-                  role: "Cybersecurity Apprentice",
+                  role: "CEH Practical Beta Testing Committee Member",
                   company: "EC-Council",
+                  type: "Part-time",
                   location: "Remote",
-                  period: "2023",
-                  description: "Completed a hands-on apprenticeship focused on practical application of ethical hacking methodologies and penetration testing techniques.",
-                  achievements: [
-                    "Conducted penetration tests on simulated corporate networks",
-                    "Performed vulnerability assessments and created detailed technical reports",
-                    "Practiced exploit development and privilege escalation techniques in controlled environments"
-                  ]
+                  period: "Jun 2026 - Present",
+                  description: "Selected as a CEH (Practical) Beta Testing Committee Member, contributing to the validation and quality assurance of cybersecurity certification examinations through hands-on technical review."
+                },
+                {
+                  role: "Cybersecurity Career Mentor",
+                  company: "EC-Council",
+                  type: "Part-time",
+                  location: "Remote",
+                  period: "Jun 2025 - Jun 2026",
+                  link: { url: "https://aspen.eccouncil.org/VerifyBadge?type=mentor&a=Ztv/rZ6b4CBTZ5QkBYYsBCMRBusX32vCssd5M3BXpLQ=", label: "Verify Mentor Badge" },
+                  description: "Mentored 100+ aspiring cybersecurity professionals as a Recognized EC-Council Career Mentor, guiding candidates through CEH, CEH Practical, CEH Master, and W|AHS certification paths."
+                },
+                {
+                  role: "Cybersecurity Practical Labs Trainee",
+                  company: "EC-Council",
+                  type: "Apprenticeship",
+                  location: "Baku, Azerbaijan",
+                  period: "Apr 2023 - Jun 2025",
+                  description: "Applied practical penetration testing and vulnerability assessment skills through hands-on labs on EC-Council's CyberQ, BTC, and Skillable platforms."
                 }
               ].map((job, index) => (
-                <div
+                <TimelineItem
                   key={index}
-                  className="mb-12 relative pl-8 border-l-2 border-muted/50 pb-2"
-                >
-                  <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-primary/20 border-4 border-background"></div>
-                  <div className="mb-1 text-sm text-muted-foreground">{job.period}</div>
-                  <h3 className="text-xl font-display font-semibold mb-1">{job.role}</h3>
-                  <div className="flex items-center mb-4">
-                    <span className="font-medium">{job.company}</span>
-                    <span className="mx-2 text-muted-foreground">•</span>
-                    <span className="text-muted-foreground">{job.location}</span>
-                  </div>
-                  <p className="text-muted-foreground mb-4">{job.description}</p>
-                  <div className="mt-4">
-                    <h4 className="font-medium mb-2">Key Responsibilities:</h4>
-                    <ul className="space-y-2">
-                      {job.achievements.map((achievement, i) => (
-                        <li key={i} className="flex text-sm text-muted-foreground">
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 mr-2 flex-shrink-0"></div>
-                          <span>{achievement}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                  period={job.period}
+                  title={job.role}
+                  subtitle={job.company}
+                  meta={[job.type, job.location]}
+                  description={job.description}
+                  link={job.link}
+                />
+              ))}
+
+              <h2 className="text-2xl font-display font-semibold mt-16 mb-8 flex items-center">
+                <HeartHandshake className="mr-2 h-5 w-5 text-primary" />
+                Volunteering
+              </h2>
+              {[
+                {
+                  role: "CTF Player | Global Ranking: Top 1%",
+                  organization: "Hack The Box",
+                  period: "Mar 2024 - Present",
+                  link: { url: "https://app.hackthebox.com/public/users/1600744", label: "View Hack The Box Profile" },
+                  description: "Recognized in the Global Top 1% on Hack The Box, a leading platform for offensive security training and cyber talent assessment. Regularly take part in advanced Capture The Flag (CTF) exercises."
+                },
+                {
+                  role: "CTF Player | Global Ranking: Top 1%",
+                  organization: "TryHackMe",
+                  period: "Feb 2023 - Aug 2023",
+                  link: { url: "https://tryhackme.com/p/ibadovulfat", label: "View TryHackMe Profile" },
+                  description: "Ranked in the Global Top 1% with 12,600+ points and 215 completed rooms across 200+ labs."
+                },
+                {
+                  role: "Web Security Community Contributor & CTF Player",
+                  organization: "PortSwigger",
+                  description: "Completed the PortSwigger Academy path with 200+ labs solved across Apprentice (61/61), Practitioner (128/173), and Master/Expert (11/39) levels."
+                }
+              ].map((item, index) => (
+                <TimelineItem
+                  key={index}
+                  period={item.period}
+                  title={item.role}
+                  subtitle={item.organization}
+                  description={item.description}
+                  link={item.link}
+                />
               ))}
             </div>
           </TabsContent>
@@ -163,15 +202,16 @@ const Resume: React.FC = () => {
                   ]
                 },
                 {
-                  degree: "Certified Ethical Hacker & Cybersecurity Certifications",
+                  degree: "EC-Council Offensive Security Certifications",
                   institution: "EC-Council",
                   location: "Online",
-                  period: "2023",
-                  description: "Completed intensive training programs, including the Certified Cybersecurity Technician (C|CT), Certified Ethical Hacker (C|EH), Web Application Hacking and Security (W|AHS) certifications.",
+                  period: "2023 - 2026",
+                  description: "Completed EC-Council's offensive security track, progressing from foundational to advanced penetration testing programs: Certified Cybersecurity Technician (C|CT), Certified Ethical Hacker (C|EH Master), Web Application Hacking and Security (W|AHS), Certified Penetration Testing Professional (C|PENT), and Licensed Penetration Tester (LPT Master).",
                   achievements: [
-                    "Mastered ethical hacking techniques and methodologies",
-                    "Specialized in web application security assessment",
-                    "Trained in network penetration testing and vulnerability management"
+                    "C|PENT (Certified Penetration Testing Professional) - completed all 130 live-range challenges across AD, network, web, binary, and IoT",
+                    "LPT (Licensed Penetration Tester) Master - EC-Council's highest hands-on penetration testing credential",
+                    "C|EH Master, W|AHS, and C|CT - ethical hacking, web app exploitation, and core cybersecurity",
+                    "Specialized in Active Directory attacks, web/network exploitation, and binary & firmware analysis"
                   ]
                 },
                 {
@@ -228,39 +268,54 @@ const Resume: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               {
-                icon: <Shield className="h-6 w-6 text-primary" />,
-                category: "Offensive Security",
+                icon: <Crosshair className="h-6 w-6 text-primary" />,
+                category: "Red Team & Adversary Emulation",
                 skills: [
-                  { name: "Penetration Testing", level: 90 },
-                  { name: "Vulnerability Assessment", level: 95 },
-                  { name: "Exploit Development", level: 80 },
-                  { name: "Social Engineering", level: 85 },
-                  { name: "Network Security", level: 90 }
+                  { name: "Adversary Emulation (MITRE ATT&CK)", level: 90 },
+                  { name: "Command & Control (Cobalt Strike, Sliver, Mythic)", level: 88 },
+                  { name: "EDR / AV Evasion & Malware Operations", level: 85 },
+                  { name: "Active Directory Attacks (Kerberoasting, ACL, Trusts)", level: 90 },
+                  { name: "Lateral Movement & Pivoting", level: 91 },
+                  { name: "Post-Exploitation & Persistence", level: 89 }
                 ]
               },
               {
                 icon: <Bug className="h-6 w-6 text-primary" />,
-                category: "Malware Analysis",
+                category: "Web & Application Exploitation",
                 skills: [
-                  { name: "Reverse Engineering", level: 85 },
-                  { name: "Malware Behavior Analysis", level: 80 },
-                  { name: "Sandboxing", level: 90 },
-                  { name: "Memory Forensics", level: 75 },
-                  { name: "Static/Dynamic Analysis", level: 85 }
+                  { name: "Web App Penetration Testing (OWASP Top 10)", level: 93 },
+                  { name: "Advanced Injection (SQLi, SSTI, XXE, Deserialization)", level: 89 },
+                  { name: "Authentication & Session Attacks", level: 90 },
+                  { name: "Access Control & Business Logic (IDOR)", level: 91 },
+                  { name: "API & GraphQL Security Testing", level: 85 },
+                  { name: "HTTP Request Smuggling & Desync", level: 82 }
                 ]
               },
               {
-                icon: <Palette className="h-6 w-6 text-primary" />,
-                category: "Frontend Skills",
+                icon: <Binary className="h-6 w-6 text-primary" />,
+                category: "Reverse Engineering & Exploit Dev",
                 skills: [
-                  { name: "HTML/CSS", level: 90 },
-                  { name: "JavaScript/TypeScript", level: 85 },
-                  { name: "React", level: 80 },
-                  { name: "Responsive Design", level: 90 },
-                  { name: "UI/UX Principles", level: 85 }
+                  { name: "Binary Exploitation (BOF, ROP, ret2libc)", level: 82 },
+                  { name: "Reverse Engineering (Ghidra, IDA Pro)", level: 85 },
+                  { name: "Mitigation Bypass (ASLR, NX, PIE, Canary)", level: 80 },
+                  { name: "Firmware & IoT Analysis (Squashfs, XOR, Entropy)", level: 83 },
+                  { name: "Malware Behavior & Detection Engineering", level: 84 },
+                  { name: "Shellcode Crafting & Custom Exploits", level: 81 }
+                ]
+              },
+              {
+                icon: <Terminal className="h-6 w-6 text-primary" />,
+                category: "Core Skills & Development",
+                skills: [
+                  { name: "Python (Offensive Tooling & Automation)", level: 90 },
+                  { name: "Bash & PowerShell Scripting", level: 88 },
+                  { name: "Linux & Windows Internals", level: 87 },
+                  { name: "Networking & Protocol Analysis (TCP/IP)", level: 89 },
+                  { name: "Web Development (React, TypeScript, Tailwind)", level: 85 },
+                  { name: "Git, Automation & Secure Development", level: 84 }
                 ]
               }
             ].map((skillGroup, index) => (
@@ -307,17 +362,21 @@ const Resume: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {[
               { name: "Kali Linux", category: "Operating System" },
+              { name: "Cobalt Strike", category: "C2 Framework" },
+              { name: "Sliver / Mythic", category: "C2 & Post-Exploitation" },
               { name: "Metasploit", category: "Exploitation Framework" },
-              { name: "Burp Suite", category: "Web Application Testing" },
-              { name: "Wireshark", category: "Network Analysis" },
-              { name: "Nmap", category: "Network Scanning" },
-              { name: "OWASP ZAP", category: "Web Security" },
-              { name: "Ghidra", category: "Reverse Engineering" },
-              { name: "IDA Pro", category: "Disassembler" },
-              { name: "Bloodhound", category: "AD Assessment" },
-              { name: "Hashcat", category: "Password Cracking" },
-              { name: "Aircrack-ng", category: "Wireless Security" },
-              { name: "OSINT Framework", category: "Information Gathering" }
+              { name: "Burp Suite Pro", category: "Web Application Testing" },
+              { name: "BloodHound", category: "AD Attack Paths" },
+              { name: "NetExec (CME)", category: "Network Exploitation" },
+              { name: "Impacket", category: "AD / Protocol Toolkit" },
+              { name: "Mimikatz & Rubeus", category: "Credential Abuse" },
+              { name: "Kerbrute", category: "Kerberos Enumeration" },
+              { name: "Nmap", category: "Recon & Scanning" },
+              { name: "sqlmap", category: "SQL Injection" },
+              { name: "ffuf & Nuclei", category: "Fuzzing & Recon" },
+              { name: "Ghidra / IDA Pro", category: "Reverse Engineering" },
+              { name: "binwalk", category: "Firmware / IoT Analysis" },
+              { name: "Hashcat", category: "Password Cracking" }
             ].map((tool, index) => (
               <div
                 key={index}

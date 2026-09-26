@@ -1,7 +1,7 @@
 
 import { ProjectType } from "./types";
 
-export const categories = ["All", "Certificates", "Sites", "Labs"];
+export const categories = ["All", "Certificates", "Sites", "Projects", "Reports"];
 
 export const projectsData: ProjectType[] = [
   {
@@ -74,17 +74,17 @@ export const projectsData: ProjectType[] = [
   },
   {
     id: 5,
-    title: "ShadowLab Defender",
-    category: "Labs",
-    description: "AI-driven behavioral telemetry lab for Microsoft Defender and EDR detection research.",
-    tags: ["EDR", "Behavioral Detection", "Telemetry", "Offensive Security", "Machine Learning"],
+    title: "ShadowLab",
+    category: "Projects",
+    description: "Windows-focused cybersecurity investigation platform built for behavioral monitoring, threat hunting, incident triage, and response-oriented defensive workflows.",
+    tags: ["Behavioral Detection", "Threat Hunting", "Incident Response", "EDR"],
     image: "/upload/proje.jpeg",
-    url: "https://github.com/ibadovulfat/shadowlab-detection-lab",
+    url: "https://shadowlab.about.surf/",
     repository: "https://github.com/ibadovulfat/shadowlab-detection-lab",
     details: {
       completionDate: "Jun 2025 - Present",
       role: "Creator & Researcher",
-      skills: "EDR detection engineering, behavioral telemetry analysis, Python-based simulation, heuristic and ML-driven visibility scoring."
+      skills: "Behavioral monitoring, process intelligence, threat hunting, incident handling, native desktop (PySide6) and API-first (FastAPI) development."
     }
   },
   {
@@ -99,6 +99,19 @@ export const projectsData: ProjectType[] = [
     details: {
       description: "Developed fully responsive and user-friendly website, focusing on modern design, functionality, and performance optimization.",
       role: "Full Stack Developer"
+    }
+  },
+  {
+    id: 7,
+    title: "CPENT Practice Range Labs",
+    category: "Reports",
+    description: "Comprehensive walkthroughs, methodology guides, and solutions for all 130 challenges in the EC-Council CPENT Practice Range Labs.",
+    tags: ["CPENT", "Penetration Testing", "Walkthroughs", "Methodology"],
+    image: "/upload/cpent_live.jpeg",
+    url: "https://github.com/ibadovulfat/CPENT-Practice-Range-Labs",
+    repository: "https://github.com/ibadovulfat/CPENT-Practice-Range-Labs",
+    details: {
+      description: "Comprehensive walkthroughs, methodology guides, and solutions for all 130 challenges in the EC-Council CPENT Practice Range Labs."
     }
   }
 ];

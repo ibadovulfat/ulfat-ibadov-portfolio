@@ -97,7 +97,7 @@ const ProjectDetailsDialog: React.FC<ProjectDetailsDialogProps> = ({ project }) 
         </div>
       )}
 
-      {project.category === "Labs" && (
+      {project.category === "Projects" && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {project.details?.completionDate && (
@@ -145,6 +145,15 @@ const ProjectDetailsDialog: React.FC<ProjectDetailsDialogProps> = ({ project }) 
         </div>
       )}
 
+      {project.category === "Reports" && project.details?.description && (
+        <div>
+          <h3 className="font-medium mb-1.5">Report Overview</h3>
+          <p className="text-muted-foreground text-sm leading-relaxed break-words">
+            {project.details.description}
+          </p>
+        </div>
+      )}
+
       <div className="flex justify-end mt-6 gap-2">
         {!isMobile && (
           <DialogClose asChild>
@@ -156,6 +165,13 @@ const ProjectDetailsDialog: React.FC<ProjectDetailsDialogProps> = ({ project }) 
             <Button>
               <ExternalLink className="h-4 w-4 mr-2" />
               Verify Certificate
+            </Button>
+          </a>
+        ) : project.category === "Reports" ? (
+          <a href={project.url} target="_blank" rel="noopener noreferrer">
+            <Button>
+              <ExternalLink className="h-4 w-4 mr-2" />
+              View Report
             </Button>
           </a>
         ) : (

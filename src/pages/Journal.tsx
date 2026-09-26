@@ -1,4 +1,6 @@
 
+import Seo from '@/components/SEO/Seo';
+import PageHero from '@/components/UI/PageHero';
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Calendar, User, Clock, Tag } from "lucide-react";
@@ -17,7 +19,7 @@ const categories = [
   { name: "Certification", count: 3 },
   { name: "Security Research", count: 1 },
   { name: "Web Security", count: 0 },
-  { name: "Penetration Testing", count: 0 },
+  { name: "Penetration Testing", count: 1 },
   { name: "Malware Analysis", count: 0 },
   { name: "Defensive Security", count: 0 },
 ];
@@ -75,22 +77,18 @@ const Journal: React.FC = () => {
 
   return (
     <>
+      <Seo
+        title="Blog | Offensive Security Research & Write-ups - Ulfat Ibadov"
+        description="Technical write-ups on penetration testing, red teaming, CPENT range walkthroughs, exploit development, and malware analysis by Ulfat Ibadov."
+        path="/blog"
+        keywords="penetration testing blog, red team write-ups, CPENT walkthrough, exploit development, offensive security research"
+      />
       {/* Hero Section */}
-      <Section fullHeight className="flex items-center justify-center">
-        <div className="max-w-4xl mx-auto text-center px-4">
-          <ParallaxEffect speed={0.1} direction="up">
-            <span className="text-sm font-medium px-3 py-1 rounded-full bg-secondary text-secondary-foreground inline-block mb-4">
-              Blog
-            </span>
-            <h1 className="section-heading mb-6">
-              Cybersecurity Insights & Research
-            </h1>
-            <p className="section-subheading max-w-2xl mx-auto">
-              Sharing technical analysis, case studies, and trends in penetration testing and malware analysis.
-            </p>
-          </ParallaxEffect>
-        </div>
-      </Section>
+      <PageHero
+        eyebrow="Blog"
+        title={<>Cybersecurity <span className="text-red-500">Insights</span> & Research</>}
+        subtitle="Sharing technical analysis, case studies, and trends in penetration testing and malware analysis."
+      />
 
       {/* Featured Post */}
       <Section className="py-24">
@@ -125,7 +123,7 @@ const Journal: React.FC = () => {
                 </div>
               </div>
               <Link
-                to={`/journal/${posts[0].id}`}
+                to={`/blog/${posts[0].id}`}
                 className="group inline-flex items-center text-primary font-medium hover:underline"
               >
                 Read full article
@@ -161,7 +159,7 @@ const Journal: React.FC = () => {
                 key={post.id}
                 className="bg-background rounded-lg border border-border overflow-hidden hover-lift shadow-sm hover:shadow-md transition-all"
               >
-                <Link to={`/journal/${post.id}`} className="aspect-video w-full bg-muted/30 overflow-hidden relative block">
+                <Link to={`/blog/${post.id}`} className="aspect-video w-full bg-muted/30 overflow-hidden relative block">
                   {post.image.startsWith('/') ? (
                     <img
                       src={post.image}
@@ -179,7 +177,7 @@ const Journal: React.FC = () => {
                     {post.category}
                   </span>
                   <h3 className="text-xl font-display font-semibold mb-3">
-                    <Link to={`/journal/${post.id}`} className="hover:text-primary transition-colors">
+                    <Link to={`/blog/${post.id}`} className="hover:text-primary transition-colors">
                       {post.title}
                     </Link>
                   </h3>

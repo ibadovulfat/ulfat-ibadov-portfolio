@@ -7,6 +7,7 @@ import ParallaxEffect from "@/components/UI/ParallaxEffect";
 import ScrollIndicator from "@/components/UI/ScrollIndicator";
 import AnimatedGradient from "@/components/UI/AnimatedGradient";
 import CyberNetwork from "@/components/UI/CyberNetwork";
+import ScatterText from "@/components/UI/ScatterText";
 import ScrollReveal from "@/components/UI/ScrollReveal";
 import Card3D from "@/components/UI/Card3D";
 import { Button } from "@/components/UI/button";
@@ -41,12 +42,12 @@ const featuredProjects = [
   },
   {
     id: 2,
-    title: "ShadowLab Defender",
-    category: "Labs",
-    description: "AI-driven behavioral telemetry lab for Microsoft Defender and EDR detection research.",
-    tags: ["EDR", "Behavioral Detection", "Telemetry", "Offensive Security", "Machine Learning"],
+    title: "ShadowLab",
+    category: "Projects",
+    description: "Windows-focused cybersecurity investigation platform built for behavioral monitoring, threat hunting, incident triage, and response-oriented defensive workflows.",
+    tags: ["Behavioral Detection", "Threat Hunting", "Incident Response", "EDR"],
     image: "/upload/proje.jpeg",
-    url: "https://github.com/ibadovulfat/shadowlab-detection-lab"
+    url: "https://shadowlab.about.surf/"
   },
   {
     id: 3,
@@ -65,31 +66,6 @@ const Index: React.FC = () => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    const splitTextIntoChars = () => {
-      const headingElement = document.querySelector('.hero-heading') as HTMLElement;
-      if (!headingElement) return;
-
-      const text = headingElement.innerText;
-      const chars = text.split('');
-
-      headingElement.textContent = text;
-      headingElement.innerHTML = chars
-        .map(char => char === ' '
-          ? ' '
-          : `<span class="char">${char}</span>`)
-        .join('');
-
-      // Animate the characters with a delay
-      const charElements = document.querySelectorAll('.char');
-      charElements.forEach((char, index) => {
-        setTimeout(() => {
-          char.classList.add('animate');
-        }, 50 * index);
-      });
-    };
-
-    splitTextIntoChars();
-
     // Add parallax mouse movement effect to hero section
     const handleMouseMove = (e: MouseEvent) => {
       if (!heroRef.current) return;
@@ -133,7 +109,7 @@ const Index: React.FC = () => {
         <meta property="og:title" content="Ulfat Ibadov | Penetration Testing & Offensive Security Expert" />
         <meta property="og:description" content="Professional portfolio showcasing penetration testing expertise, vulnerability assessment services, and offensive security solutions." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://about.surf" />
+        <meta property="og:url" content="https://about.surf/" />
         <meta property="og:image" content="https://about.surf/upload/profile.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Ulfat Ibadov | Penetration Testing Expert" />
@@ -141,20 +117,40 @@ const Index: React.FC = () => {
         <meta name="twitter:image" content="https://about.surf/upload/profile.jpg" />
         <link rel="canonical" href="https://about.surf/" />
         <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Ulfat Ibadov",
-              "url": "https://about.surf/",
-              "image": "https://about.surf/upload/profile.jpg",
-              "jobTitle": "Penetration Testing & Offensive Security Expert",
-              "sameAs": [
-                "https://github.com/ibadovulfat",
-                "https://linkedin.com/in/ulfat-ibadov"
-              ]
-            }
-          `}
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "Ulfat Ibadov",
+            url: "https://about.surf/",
+            image: "https://about.surf/upload/profile.jpg",
+            jobTitle: "Penetration Tester & Offensive Security Expert",
+            description:
+              "Offensive security specialist focused on penetration testing, red team operations, Active Directory attacks, web exploitation, and exploit development.",
+            knowsAbout: [
+              "Penetration Testing",
+              "Red Team Operations",
+              "Active Directory Attacks",
+              "Web Application Exploitation",
+              "Reverse Engineering",
+              "Exploit Development",
+            ],
+            sameAs: [
+              "https://github.com/ibadovulfat",
+              "https://www.linkedin.com/in/ibadovulfat/",
+              "https://app.hackthebox.com/public/users/1600744",
+              "https://tryhackme.com/p/ibadovulfat",
+            ],
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Ulfat Ibadov",
+            url: "https://about.surf/",
+            author: { "@type": "Person", name: "Ulfat Ibadov" },
+            inLanguage: "en",
+          })}
         </script>
       </Helmet>
 
@@ -185,16 +181,21 @@ const Index: React.FC = () => {
         <div className="container px-4 sm:px-6 relative z-10 max-w-full">
           <div className="max-w-4xl mx-auto text-center space-y-10">
             <ParallaxEffect speed={0.05} direction="up">
-              <h1 className="hero-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold leading-tight tracking-tight">
-                Ulfat Ibadov
-              </h1>
+              <ScatterText
+                text="Ulfat Ibadov"
+                className="hero-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold leading-tight tracking-tight"
+              />
             </ParallaxEffect>
 
             <ParallaxEffect speed={0.08} direction="up">
-              <div className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
-                <p className="mb-2">
-                  Interested in penetration testing and offensive security, with a focus on finding and understanding real-world vulnerabilities.
-                </p>
+              <div className="max-w-2xl mx-auto text-balance">
+                <ScatterText
+                  as="p"
+                  text="Offensive security specialist and penetration tester - emulating real adversaries across web, Active Directory, and internal networks to expose the risks that scanners never see."
+                  className="text-lg sm:text-xl text-muted-foreground leading-relaxed"
+                  radius={70}
+                  strength={20}
+                />
               </div>
             </ParallaxEffect>
 

@@ -68,7 +68,7 @@ const AttackMap: React.FC<{ opacity?: number }> = ({ opacity = 0.2 }) => {
                             strokeWidth="0.1"
                             strokeDasharray="1, 1"
                         >
-                            <animate attributeName="stroke-dashoffset" from="2" to="0" dur="2s" infinite />
+                            <animate attributeName="stroke-dashoffset" from="2" to="0" dur="2s" repeatCount="indefinite" />
                             <animate attributeName="opacity" values="0;0.5;0" dur="2s" fill="freeze" />
                         </line>
                     </g>

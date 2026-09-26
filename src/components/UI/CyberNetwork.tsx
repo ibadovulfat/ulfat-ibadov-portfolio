@@ -105,10 +105,10 @@ const CyberNetwork: React.FC = () => {
                 if (particle.y > window.innerHeight) particle.y = 0;
 
                 // Interaction with mouse (Repel effect + Connection)
-                let dxMouse = particle.x - mouse.current.x;
-                let dyMouse = particle.y - mouse.current.y;
-                let distanceMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
-                let maxMouseDist = 150;
+                const dxMouse = particle.x - mouse.current.x;
+                const dyMouse = particle.y - mouse.current.y;
+                const distanceMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+                const maxMouseDist = 150;
 
                 let nodeColor = particleColor;
                 let pOpacity = particle.opacity;

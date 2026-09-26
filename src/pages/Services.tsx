@@ -1,3 +1,5 @@
+import Seo from '@/components/SEO/Seo';
+import PageHero from '@/components/UI/PageHero';
 import React from "react";
 import Section from "@/components/UI/Section";
 import ParallaxEffect from "@/components/UI/ParallaxEffect";
@@ -81,22 +83,18 @@ const securityServices = [
 const Services = () => {
   return (
     <>
+      <Seo
+        title="Services | Penetration Testing & Red Team Assessments - Ulfat Ibadov"
+        description="Offensive security services: web and network penetration testing, red team engagements, Active Directory assessments, and vulnerability assessment by Ulfat Ibadov."
+        path="/services"
+        keywords="penetration testing services, red team assessment, web application pentest, active directory security, vulnerability assessment"
+      />
       {/* Hero Section */}
-      <Section fullHeight className="flex items-center justify-center">
-        <div className="max-w-4xl mx-auto text-center">
-          <ParallaxEffect speed={0.1} direction="up">
-            <span className="text-sm font-medium px-3 py-1 rounded-full bg-secondary text-secondary-foreground inline-block mb-4">
-              Services
-            </span>
-            <h1 className="section-heading mb-6">
-              Expert Cybersecurity Services
-            </h1>
-            <p className="section-subheading max-w-2xl mx-auto">
-              Comprehensive security solutions to protect your digital assets and infrastructure from evolving cyber threats.
-            </p>
-          </ParallaxEffect>
-        </div>
-      </Section>
+      <PageHero
+        eyebrow="Services"
+        title={<>Expert <span className="text-red-500">Cybersecurity</span> Services</>}
+        subtitle="Comprehensive security solutions to protect your digital assets and infrastructure from evolving cyber threats."
+      />
 
       {/* Services Grid */}
       <Section className="py-20">

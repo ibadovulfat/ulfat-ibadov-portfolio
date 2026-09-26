@@ -1,3 +1,4 @@
+import Seo from '@/components/SEO/Seo';
 import React, { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Calendar, User, Clock, Tag } from "lucide-react";
@@ -17,24 +18,48 @@ const BlogPost: React.FC = () => {
     return (
       <Section className="py-24 text-center">
         <h2 className="text-2xl font-bold mb-4">Post not found</h2>
-        <Link to="/journal">
-          <Button>Back to Journal</Button>
+        <Link to="/blog">
+          <Button>Back to Blog</Button>
         </Link>
       </Section>
     );
   }
 
+  const plainText = post.content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: `https://about.surf${post.image}`,
+    datePublished: new Date(post.date).toISOString(),
+    author: { "@type": "Person", name: post.author, url: "https://about.surf/" },
+    publisher: { "@type": "Person", name: "Ulfat Ibadov" },
+    mainEntityOfPage: `https://about.surf/blog/${post.id}`,
+    articleSection: post.category,
+    wordCount: plainText.split(" ").length,
+  };
+
   return (
     <>
+      <Seo
+        title={`${post.title} | Ulfat Ibadov`}
+        description={post.excerpt}
+        path={`/blog/${post.id}`}
+        image={post.image}
+        type="article"
+        keywords={`${post.category}, offensive security, penetration testing, Ulfat Ibadov`}
+        jsonLd={articleSchema}
+      />
       <Section className="pt-32 pb-12">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="mb-8">
             <Link
-              to="/journal"
+              to="/blog"
               className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Journal
+              Back to Blog
             </Link>
           </div>
 

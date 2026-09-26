@@ -12,6 +12,135 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: 11,
+    title: "130 Flags, Five Ranges: What the CPENT Practice Labs Actually Teach You",
+    excerpt: "I spent weeks living inside the CPENT practice range - Active Directory, Linux CTF, IoT firmware, binary exploitation and web. This is what stuck: the techniques, the rabbit holes, and the mindset the labs quietly force on you.",
+    date: "September 24, 2026",
+    author: "Ulfat Ibadov",
+    readTime: "14 min read",
+    category: "Penetration Testing",
+    image: "/upload/cpent_live.jpeg",
+    content: `
+      <p>I just finished the full CPENT practice range - all 130 flags across five separate lab networks, and more 2 a.m. sessions than I'd like to admit. If you've only skimmed the syllabus, "Certified Penetration Testing Professional" reads like another multiple-choice badge. It isn't. The range drops you onto a live enterprise network and then walks away. No hints, no "did you try this?", no reset button that saves your progress. You either read the box or you don't.</p>
+
+      <img src="/upload/cpent_live.jpeg" alt="CPENT practice range console" class="rounded-lg border border-border my-6 w-full" />
+
+      <p class="font-medium text-lg my-4">CPENT doesn't test whether you know an attack exists. It tests whether you can chain a dozen of them together, under time pressure, without a walkthrough holding your hand.</p>
+
+      <p>The 130 challenges are split across five ranges, and each one has its own personality:</p>
+      <ul class="list-disc pl-6 mb-4">
+        <li><strong>Binary</strong> - Windows and Linux stack overflows, Ghidra reversing, ROP gadgets and mitigation analysis (Ch 1-25)</li>
+        <li><strong>IoT</strong> - firmware teardown, Squashfs/JFFS2 unpacking, and XOR-encrypted images that don't want to be read (Ch 26-61)</li>
+        <li><strong>Active Directory</strong> - a genuine multi-domain forest with real inter-domain trusts (Ch 62-99)</li>
+        <li><strong>Linux CTF</strong> - service misconfiguration to root, the honest way (Ch 100-118)</li>
+        <li><strong>Web</strong> - SQL injection, arbitrary upload, Git leaks and CMS RCE (Ch 119-129)</li>
+      </ul>
+
+      <p>I'm not going to reprint every flag here - the full challenge-by-challenge write-ups are in the repo linked at the bottom. What I want to talk about is the part that doesn't fit in an answer key: how you actually move through a range like this, and where people lose hours.</p>
+
+      <h2>The Active Directory range is the whole exam in miniature</h2>
+
+      <p>If you take one thing seriously, make it AD. The forest here spans five generations of Windows Server - 2008 R2 through 2022 - across four domains (<code>CPENT.LOCALNET</code>, <code>LPT.COM</code>, <code>ECC.LOCALNET</code>, and a child domain), plus an Exchange 2016 box wired in for good measure. That mix is deliberate. It forces you to care about SMB signing, legacy protocol support, and trust direction all at once.</p>
+
+      <p>Recon sets the tone. Before touching a single exploit I sweep the subnet with NetExec just to build a map - who's a DC, who requires SMB signing, which host is stuck on 2008:</p>
+
+      <pre class="bg-muted/40 border border-border rounded-lg p-4 overflow-x-auto text-sm my-4"><code>for ip in 172.25.170.12 172.25.170.80 172.25.170.190 172.25.170.200; do
+  echo "=== $ip ==="
+  netexec smb $ip
+done</code></pre>
+
+      <p>From there it's a Kerberos game. Kerbrute for user enumeration, then a bruteuser pass to turn a valid SPN account into credentials:</p>
+
+      <pre class="bg-muted/40 border border-border rounded-lg p-4 overflow-x-auto text-sm my-4"><code>kerbrute userenum -d LPT.COM --dc 172.25.170.190 Usernames.txt
+kerbrute bruteuser -d LPT.COM --dc 172.25.170.190 Passwords.txt user-one</code></pre>
+
+      <p>One detail the range quietly teaches: expired passwords. You'll crack a valid credential and still get bounced, because the account's password has expired. The fix isn't in most cheat sheets - you reset it in-place over the network with <code>impacket-changepasswd</code>, then carry on with RPC enumeration. That single gotcha eats people alive on exam day.</p>
+
+      <p>The part I enjoyed most was mapping trusts. Once you psexec onto the forest-root DC, a single command lays the whole topology bare:</p>
+
+      <pre class="bg-muted/40 border border-border rounded-lg p-4 overflow-x-auto text-sm my-4"><code>nltest /domain_trusts /all_trusts /v</code></pre>
+
+      <p>Reading that output - spotting the <em>foresttrans</em> trust to ECC, the <em>withinforest</em> child, the direction of each arrow - is what turns a pile of boxes into an attack path. Kerberoasting with <code>GetUserSPNs</code>, ACL abuse to grab a hash, medusa/NetExec for the older signing-optional hosts: those are all just tools. The trust map is the strategy.</p>
+
+      <p class="font-medium text-lg my-4">In AD, enumeration isn't the boring part before the hack. It <em>is</em> the hack. The exploit is usually a two-line afterthought once you understand who trusts whom.</p>
+
+      <h2>Linux CTF: root is almost always a misconfiguration, not a 0-day</h2>
+
+      <p>The CTF range (192.168.1.0/24) is a reminder that most real compromises are boring in the best way. Six targets, and the escalation vector on nearly every one is something an admin got wrong, not something exotic:</p>
+
+      <ul class="list-disc pl-6 mb-4">
+        <li>A Hydra SSH spray gets you <code>rebecca</code>, then a sudo-permitted <code>python3</code> is a straight GTFOBins ride to root.</li>
+        <li>Another box hands you <code>awk</code> as root - <code>sudo /usr/bin/awk 'BEGIN {system("/bin/sh")}'</code> and you're done.</li>
+        <li>An anonymous RSYNC module (port 873) leaks a flag with zero exploitation at all.</li>
+        <li>"Online Book Store 1.0" and "Job Portal 1.0" give web RCE footholds; the second escalates with PwnKit (CVE-2021-4034), which in 2022 turned nearly every Linux box on the planet into an instant root.</li>
+      </ul>
+
+      <p>The one I want people to internalise is the SSH key hidden behind a file-read bug. On the last target, a <code>killmyeye.php</code> LFI lets you pull an <code>id_rsa</code> - but it's base64-encoded on disk. Miss the encoding and you'll swear the key is corrupt. Decode it, fix the permissions to <code>600</code>, and you SSH straight in as root. The lesson isn't "know PwnKit." It's <em>always check how the thing is stored before you decide it's broken.</em></p>
+
+      <h2>IoT firmware: the flags are inside files that don't want to open</h2>
+
+      <p>The IoT range was my favourite, because it rewards patience over speed. You're handed raw firmware images and asked structural questions - filesystem type, inode counts, header offsets, compression format. Everything starts with <code>binwalk</code>:</p>
+
+      <pre class="bg-muted/40 border border-border rounded-lg p-4 overflow-x-auto text-sm my-4"><code>binwalk -t FileOne.bin
+# 0x0      BIN-Header, board ID 1550, firmware version 1.0.0
+# 0x20     TRX firmware header, little endian
+# 0x3C     gzip compressed data, original file name: "piggy"
+# 0x192728 Squashfs filesystem, v3.0, 447 inodes</code></pre>
+
+      <p>Squashfs, JFFS2, uImage, TRX, LZMA, gzip "piggy" blobs - you learn to recognise them by their header bytes, carve them out with <code>dd</code>, and unpack recursively until a real filesystem falls out. Then it's grep archaeology: hardcoded credentials in <code>check_fwmode</code>, HNAP/SOAP endpoints, service binaries compiled for MIPS.</p>
+
+      <p>The standout challenge is an XOR-encrypted uImage. Its entropy is flat and high - a dead giveaway that it's encrypted, not compressed. You recover an 8-byte repeating XOR key by comparing the encrypted header against the known uImage magic, decrypt the image, and only then can binwalk see the LZMA payload underneath. That single problem taught me more about entropy analysis than any course chapter did.</p>
+
+      <p class="font-medium text-lg my-4">Firmware work is 10% exploitation and 90% "what format is this, and what is it hiding under the compression?"</p>
+
+      <h2>Binary: the fundamentals still decide everything</h2>
+
+      <p>The binary range keeps you honest. It opens with a Windows classic - CesarFTP 0.99g, vulnerable to a stack overflow through the <code>MKD</code> verb - and makes you understand the exploit rather than just fire a Metasploit module at it. On Linux it swings to reversing: pull an ELF apart in Ghidra, read <code>checksec</code> like a weather report (NX, PIE, canary, RELRO), and decide your approach based on which mitigations are actually on.</p>
+
+      <p>The overflow work is the muscle-memory loop every exploit dev knows by heart - fuzz to crash, find the exact offset, control the instruction pointer:</p>
+
+      <pre class="bg-muted/40 border border-border rounded-lg p-4 overflow-x-auto text-sm my-4"><code>pattern_create.rb -l 200
+# crash the service, capture the value in RIP/EIP
+pattern_offset.rb -q &lt;value&gt;   # exact offset to overwrite</code></pre>
+
+      <p>When NX is on, you can't just drop shellcode on the stack - so the range pushes you toward ROP: hunting gadgets with <code>readelf</code> and <code>ropper</code>, stitching them into a chain, doing ret2libc when the binary is kind enough to leak an address. None of this is new, and that's exactly the point. The primitives from 15 years ago still work because the fundamentals never changed.</p>
+
+      <h2>Web: chained bugs, not single findings</h2>
+
+      <p>The web range (10.10.1.0/24) is where "real pentest" and "CTF" meet. Individually the bugs are textbook; the difficulty is chaining them into root. A few that stuck:</p>
+
+      <ul class="list-disc pl-6 mb-4">
+        <li><strong>Time-based blind SQLi</strong> on a login parameter, automated with sqlmap, dumps a <code>users</code> table - and that reused password is your SSH foothold, which then escalates through a sudo <code>awk</code>. One bug feeds the next.</li>
+        <li><strong>Git repository disclosure</strong> - anonymous FTP leaks a repo, and the credentials aren't in the current code, they're in the <em>commit history</em>. Credential reuse does the rest.</li>
+        <li><strong>Arbitrary file upload</strong> to a foothold, then a SUID <code>/usr/bin/find</code> for root - <code>find . -exec /bin/sh \\; -quit</code>.</li>
+        <li><strong>WordPress 5.8.1</strong> with weak admin creds, theme-editor RCE, and then the real prize: a world-writable cron script (<code>data.sh</code>) running as root. Write to it, wait one minute, collect root.</li>
+      </ul>
+
+      <p class="font-medium text-lg my-4">No web target here falls to a single vulnerability. Every one is a chain - foothold bug, then a privilege bug, then patience. That's what makes it feel like real work.</p>
+
+      <h2>What actually mattered</h2>
+
+      <p>After 130 flags, the things that saved me weren't tools - they were habits:</p>
+
+      <ul class="list-disc pl-6 mb-4">
+        <li><strong>Notes as you go.</strong> Every credential, every IP, every trust arrow, written down the moment you find it. Half the range is remembering something you saw two hours ago on a different box.</li>
+        <li><strong>Enumerate wider than feels necessary.</strong> The flag is often in the service you almost skipped - the RSYNC module, port 3000 running Git, the "boring" 2008 host with signing disabled.</li>
+        <li><strong>Respect the file, not just the exploit.</strong> Base64 keys, XOR firmware, credentials buried in Git history - the range punishes anyone who assumes data is in the format they expected.</li>
+        <li><strong>Chains over findings.</strong> A single vuln is a screenshot. A chain is a compromise. CPENT only pays you for the chain.</li>
+      </ul>
+
+      <p>Would I recommend the practice range? Without hesitation - but treat it as training for a mindset, not a checklist of exploits. The tooling you'll forget. The instinct to map trust before you attack, to question a file format before you call it corrupt, to keep enumerating when the obvious path dead-ends - that's what you keep.</p>
+
+      <div class="my-6 p-4 bg-muted/30 rounded border border-border text-center flex flex-col gap-3">
+        <a href="https://github.com/ibadovulfat/CPENT-Practice-Range-Labs" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center items-center text-primary hover:underline font-bold text-lg">
+          Full walkthroughs - all 130 challenges on GitHub
+        </a>
+      </div>
+
+      <p class="text-sm text-muted-foreground">Everything here is from EC-Council's CPENT <em>practice</em> range, documented for educational and methodology purposes. Test only systems you're authorised to test.</p>
+    `
+  },
+  {
     id: 7,
     title: "Certified Ethical Hacker (CEH ANSI) - What I Passed and What It Really Means",
     excerpt: "On 22 October 2025, I passed the EC-Council Certified Ethical Hacker (CEH ANSI) theory examination. This exam tests whether you understand how real attacks are executed, detected, and abused.",
@@ -206,105 +335,107 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 10,
-    title: "ShadowLab Defender Web Simulator",
-    excerpt: "An ethical, lab-only behavioral research platform designed to study how Microsoft Defender and modern EDR solutions interpret system behavior.",
+    title: "ShadowLab",
+    excerpt: "A Windows-focused cybersecurity investigation platform built for behavioral monitoring, threat hunting, incident triage, and response-oriented defensive workflows.",
     date: "January 2026",
     author: "Ulfat Ibadov",
     readTime: "10 min read",
     category: "Security Research",
     image: "/upload/proje.jpeg",
     content: `
-      <h2>ShadowLab Defender: Behavioral Research Platform</h2>
-      <p class="text-sm text-yellow-600 bg-yellow-100 p-2 rounded mb-4 border border-yellow-200"><strong>Note:</strong> Usage requires explicit permission from the author. Created by Ulfat Ibadov.</p>
+      <h2>ShadowLab: Cybersecurity Investigation Platform</h2>
+      <p class="text-sm text-yellow-600 bg-yellow-100 p-2 rounded mb-4 border border-yellow-200"><strong>Note:</strong> This project is intended strictly for owned, isolated, and authorized lab environments. Usage requires explicit permission from the author. Created by Ulfat Ibadov.</p>
 
-      <p>ShadowLab Defender Web Simulator is an ethical, lab-only behavioral research platform designed to study how Microsoft Defender and modern EDR solutions interpret system behavior through local telemetry, Windows security event logs, and an AI-assisted behavioral scoring engine.</p>
+      <p>ShadowLab is a Windows-focused cybersecurity investigation platform built for behavioral monitoring, threat hunting, incident triage, and response-oriented defensive workflows.</p>
+
+      <p>ShadowLab was redesigned from an earlier dashboard-style prototype into an API-first security platform with a FastAPI backend and a native PySide6 desktop client. The project is now structured around modular services for telemetry, detection, process intelligence, incident handling, and response orchestration.</p>
       
-      <p class="font-medium text-lg my-4">No bypass. No exploit. No payload.<br/>This project focuses on behavioral visibility and defensive understanding, not evasion.</p>
+      <p class="font-medium text-lg my-4">This is not a bypass or exploitation project. Its purpose is to study host behavior, investigation workflows, signal enrichment, and analyst-facing response operations in controlled environments.</p>
 
       <h3>What Is ShadowLab?</h3>
-      <p>ShadowLab is a comprehensive behavioral security platform designed for both defensive research (Blue Team) and controlled offensive simulation (Red Team).</p>
-      
-      <p>It provides a high-fidelity behavioral detection environment that replicates how:</p>
+      <p>ShadowLab is a defensive cybersecurity research platform designed to support Windows-oriented investigation and response workflows. It brings together:</p>
       <ul class="list-disc pl-6 mb-4">
-        <li>Legitimate users and adversarial actors interact with the system.</li>
-        <li>Modern EDR/AV solutions (like Microsoft Defender) interpret various telemetry signals.</li>
-        <li>Security analysts can hunt for persistence, analyze internals, and take active response actions.</li>
+        <li>Process intelligence and behavioral inspection</li>
+        <li>Host telemetry and event visibility</li>
+        <li>Persistence hunting and remediation</li>
+        <li>YARA-based process inspection</li>
+        <li>Threat-intelligence enrichment</li>
+        <li>Incident and timeline management</li>
+        <li>Quarantine and response actions</li>
+        <li>Deception-oriented controls such as honeypots, canaries, and evidence capture</li>
       </ul>
-      <p>By combining defensive monitoring with controlled offensive modules (like ARP spoofing and stress scenarios), it allows for full-spectrum defensive understanding-seeing the attack, the telemetry it generates, and the response it requires.</p>
+      <p>Rather than acting as a simple monitoring dashboard, ShadowLab is designed as an operator-focused investigation surface where detection, context, triage, and response are handled inside a unified workflow.</p>
 
       <h3>Purpose</h3>
-      <p>ShadowLab was developed as part of an Advanced Cybersecurity Portfolio to demonstrate a holistic range of applied offensive and defensive research skills, including:</p>
+      <p>ShadowLab was developed as part of an advanced cybersecurity portfolio to demonstrate applied security engineering across multiple areas, including:</p>
       <ul class="list-disc pl-6 mb-4">
-        <li><strong>Advanced Behavioral Detection:</strong> Monitoring and scoring complex process activities.</li>
-        <li><strong>Forensic Internals:</strong> Deep-dive analysis of process memory, handles, and loaded modules.</li>
-        <li><strong>Incident Response:</strong> Implementation of active mitigation (Suspend/Kill) and audit logging.</li>
-        <li><strong>Deception Technology:</strong> Deploying and monitoring honeypots and ransomware canary files.</li>
-        <li><strong>Threat Intelligence:</strong> Automated correlation of telemetry with VirusTotal, AbuseIPDB, and MITRE ATT&CK.</li>
-        <li><strong>Offensive Network Warfare:</strong> Mastering layer-2 discovery and ARP spoofing from a defensive perspective.</li>
-        <li><strong>Generative AI Analysis:</strong> Integrating LLMs for contextual threat explainability.</li>
+        <li>Behavioral detection and rule-based scoring</li>
+        <li>Process investigation and forensic visibility</li>
+        <li>Persistence analysis and remediation workflows</li>
+        <li>Threat-intelligence correlation</li>
+        <li>Incident triage and response orchestration</li>
+        <li>Deception-based defensive controls</li>
+        <li>Desktop product design for cybersecurity operations</li>
+        <li>API-first architecture for extensibility, Docker portability, and future integration paths</li>
       </ul>
-      <p>All activity is conducted strictly for research and educational purposes in isolated lab environments.</p>
+      <p>The project reflects a product-oriented security engineering approach rather than a proof-of-concept dashboard.</p>
 
-      <h3>How It Works (High-Level)</h3>
-      <p>ShadowLab operates as a continuous behavioral analysis pipeline:</p>
+      <h3>How It Works</h3>
+      <p>ShadowLab operates as a modular investigation pipeline:</p>
 
       <div class="space-y-4 my-6">
         <div>
-          <h4 class="font-bold text-primary">1. Telemetry & Deep Internals</h4>
-          <p>Live monitoring of CPU, RAM, Disk, and Network telemetry via psutil. Enumeration of open Handles (Files/Sockets) and loaded Modules (DLL/dylib). Printable ASCII/Unicode extraction from binaries using String Inspector.</p>
+          <h4 class="font-bold text-primary">1. Telemetry and Process Visibility</h4>
+          <p>ShadowLab collects behavioral and system-level telemetry, surfaces process metadata, command-line context, hashes, signature status, and other host-level signals relevant to analyst workflows.</p>
         </div>
         
         <div>
-          <h4 class="font-bold text-primary">2. Advanced Threat Hunting</h4>
-          <p>Interactive parent-child relationship visualization via pyvis. Deep scanning of process binaries using custom weaponized YARA rules. Real-time packet capture and DNS query analysis via scapy.</p>
+          <h4 class="font-bold text-primary">2. Investigation and Hunt Workflows</h4>
+          <p>Operators can inspect process internals, extract strings, run YARA scans, review process trees, perform sandbox-style traces, and enrich suspicious artifacts with external intelligence sources.</p>
         </div>
         
         <div>
-          <h4 class="font-bold text-primary">3. Enterprise Defense & AI</h4>
-          <p><strong>Deception (Honeypot):</strong> Hidden honey-files that trigger immediate alerts on access.<br/>
-          <strong>Ransomware Canary:</strong> Watchdog-monitored decoy files to detect unauthorized encryption.<br/>
-          <strong>AI Analyst (GenAI):</strong> LLM-powered interpretation of process behavior for better explainability.</p>
+          <h4 class="font-bold text-primary">3. Incident and Response Operations</h4>
+          <p>The platform supports incident creation, timeline review, ownership and status tracking, quarantine handling, and controlled response actions such as suspend, kill, kill-tree, and supported persistence remediation.</p>
         </div>
         
         <div>
-          <h4 class="font-bold text-primary">4. Network Warfare (Red Team)</h4>
-          <p><strong>ARP Discovery:</strong> Local subnet scanner to discover connected devices (Phones, IoT, PCs).<br/>
-          <strong>WiFi Kicker:</strong> Targeted ARP Spoofing to disconnect specific devices from the network.</p>
+          <h4 class="font-bold text-primary">4. Deception and Evidence Collection</h4>
+          <p>ShadowLab includes controlled defensive deception workflows such as honeypots, canaries, and evidence capture paths to support lab-based research and incident simulation.</p>
+        </div>
+        
+        <div>
+          <h4 class="font-bold text-primary">5. Platform Architecture</h4>
+          <p>The project follows an API-first model:<br/>FastAPI powers the backend service layer, while PySide6 provides the native desktop interface. This architecture makes the platform more maintainable, extensible, and closer to a real security product direction.</p>
         </div>
       </div>
 
       <h3>Technical Features & Stack</h3>
-      <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm my-4 bg-muted/20 p-4 rounded border border-border">
-        <li><strong>Traffic Analysis:</strong> Scapy (ARP/ICMP/TCP engineering)</li>
-        <li><strong>Malware Signatures:</strong> YARA</li>
-        <li><strong>Host Telemetry:</strong> psutil</li>
-        <li><strong>Visuals:</strong> Pyvis (Dynamic Graphviz)</li>
-        <li><strong>Forensics:</strong> Watchdog, PyAutoGUI</li>
-        <li><strong>MITRE ATT&CK:</strong> Automatic event correlation</li>
-        <li><strong>Anomaly Detection:</strong> Z-Score based outlier detection</li>
-        <li><strong>Response:</strong> Active Suspend/Kill/Resume actions</li>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm my-4 bg-muted/20 p-4 rounded border border-border list-disc pl-8">
+        <li>API-first backend with FastAPI</li>
+        <li>Native desktop client with PySide6</li>
+        <li>Process intelligence and behavioral inspection</li>
+        <li>Threat intel integration (VirusTotal, MalwareBazaar, AbuseIPDB)</li>
+        <li>YARA scanning with local and curated rule packs</li>
+        <li>Persistence discovery and remediation workflows</li>
+        <li>Timeline, incident, host, and quarantine views</li>
+        <li>Deception workflows with honeypots and canaries</li>
+        <li>Artifact generation and report export</li>
+        <li>Docker-ready backend and Windows EXE direction</li>
       </ul>
 
-      <h3>Live Demo (Live Research Preview)</h3>
-      <p>A live demonstration is available on YouTube:</p>
-      
-      <div class="my-6 p-4 bg-muted/30 rounded border border-border text-center">
-        <a href="https://www.youtube.com/watch?v=SchoX-Gfajg" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-primary hover:underline font-bold text-lg">
-          🔗 Watch ShadowLab Defender Demo
+      <p class="text-sm bg-muted/30 p-4 rounded border border-border">
+        <strong>Tech Stack:</strong> Python, FastAPI, Uvicorn, PySide6, SQLite, YAML, YARA, psutil, Scapy, Requests, Watchdog, Pandas, NumPy, scikit-learn, Plotly, Matplotlib, pyvis, ReportLab, PyAutoGUI, PyInstaller, Docker, VirusTotal API, MalwareBazaar API, AbuseIPDB API
+      </p>
+
+      <h3>Links</h3>
+      <div class="my-6 p-4 bg-muted/30 rounded border border-border text-center flex flex-col gap-3">
+        <a href="https://shadowlab.about.surf/" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center items-center text-primary hover:underline font-bold text-lg">
+          🔗 ShadowLab Site
         </a>
-      </div>
-
-      <div class="bg-card border border-border rounded-lg p-6 mt-8">
-        <h4 class="font-mono font-bold mb-4">Quickstart</h4>
-        <pre class="bg-muted p-4 rounded overflow-x-auto text-sm font-mono text-foreground">
-python -m venv venv
-# Windows
-venv\\Scripts\\activate
-# Linux / macOS
-source venv/bin/activate
-
-pip install -r requirements.txt
-streamlit run app.py</pre>
+        <a href="https://github.com/ibadovulfat/shadowlab-detection-lab" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center items-center text-primary hover:underline font-bold text-lg">
+          🔗 GitHub Repository
+        </a>
       </div>
     `
   },

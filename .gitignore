@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 .env
+
+# Build artifacts / logs / tooling
+dist.zip
+*.zip
+lint_log.txt
+.claude/

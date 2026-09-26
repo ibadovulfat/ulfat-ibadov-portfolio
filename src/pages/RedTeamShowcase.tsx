@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Section from '@/components/UI/Section';
-import ParallaxEffect from '@/components/UI/ParallaxEffect';
 import ScrollReveal from '@/components/UI/ScrollReveal';
+import RedTeamHero from '@/components/UI/RedTeamHero';
 import AdvancedLiveTerminal from '@/components/Advanced/AdvancedLiveTerminal';
 import AttackChainVisualizer from '@/components/UI/AttackChainVisualizer';
 import ExploitShowcase from '@/components/UI/ExploitShowcase';
@@ -14,12 +14,13 @@ import KernelExploitSim from '@/components/Advanced/KernelExploitSim';
 import EDREvasionLab from '@/components/Advanced/EDREvasionLab';
 import C2ProtocolBuilder from '@/components/Advanced/C2ProtocolBuilder';
 import { Helmet } from 'react-helmet';
-import { Terminal, Target, Code, Activity, Shield, Binary, Trophy, Rss, Cpu, ShieldOff, Radio, Skull } from 'lucide-react';
+import { Target, Code, Activity, Shield, Binary, Rss, Cpu, ShieldOff, Radio, Skull } from 'lucide-react';
 
 interface ShowcaseSection {
     id: string;
     title: string;
     description: string;
+    tag: string;
     icon: React.ElementType;
     component: React.ComponentType;
 }
@@ -27,6 +28,7 @@ interface ShowcaseSection {
 const showcaseSections: ShowcaseSection[] = [
     {
         id: 'terminal',
+        tag: 'Adversary Emulation',
         title: 'Advanced Terminal',
         description: 'APT-level attack scenarios with expert techniques',
         icon: Skull,
@@ -34,6 +36,7 @@ const showcaseSections: ShowcaseSection[] = [
     },
     {
         id: 'attack-chain',
+        tag: 'MITRE ATT&CK',
         title: 'Attack Chain Visualizer',
         description: 'MITRE ATT&CK kill chain with interactive technique exploration',
         icon: Target,
@@ -41,6 +44,7 @@ const showcaseSections: ShowcaseSection[] = [
     },
     {
         id: 'exploits',
+        tag: 'Exploitation',
         title: 'Exploit Showcase',
         description: 'Real-world exploit code snippets with detailed explanations',
         icon: Code,
@@ -48,6 +52,7 @@ const showcaseSections: ShowcaseSection[] = [
     },
     {
         id: 'packets',
+        tag: 'Network Analysis',
         title: 'Network Packet Flow',
         description: 'Animated visualization of network attacks and traffic patterns',
         icon: Activity,
@@ -55,6 +60,7 @@ const showcaseSections: ShowcaseSection[] = [
     },
     {
         id: 'cve',
+        tag: 'Vulnerability Research',
         title: 'CVE Timeline',
         description: 'Interactive timeline of critical vulnerabilities and exploits',
         icon: Shield,
@@ -62,6 +68,7 @@ const showcaseSections: ShowcaseSection[] = [
     },
     {
         id: 'binary',
+        tag: 'Memory Corruption',
         title: 'Binary Exploitation',
         description: 'Step-by-step stack buffer overflow visualization',
         icon: Binary,
@@ -70,6 +77,7 @@ const showcaseSections: ShowcaseSection[] = [
 
     {
         id: 'threat-intel',
+        tag: 'Threat Intelligence',
         title: 'Threat Intelligence Feed',
         description: 'Live threat intelligence updates and security advisories',
         icon: Rss,
@@ -77,6 +85,7 @@ const showcaseSections: ShowcaseSection[] = [
     },
     {
         id: 'kernel-exploit',
+        tag: 'Privilege Escalation',
         title: 'Kernel Exploitation',
         description: 'Advanced kernel UAF exploitation with SMEP bypass and privilege escalation',
         icon: Cpu,
@@ -84,6 +93,7 @@ const showcaseSections: ShowcaseSection[] = [
     },
     {
         id: 'edr-evasion',
+        tag: 'Defense Evasion',
         title: 'EDR Evasion Lab',
         description: 'Advanced EDR bypass techniques including direct syscalls and Heaven\'s Gate',
         icon: ShieldOff,
@@ -91,6 +101,7 @@ const showcaseSections: ShowcaseSection[] = [
     },
     {
         id: 'c2-builder',
+        tag: 'Command & Control',
         title: 'C2 Protocol Builder',
         description: 'Design custom Command & Control protocols with encryption and obfuscation',
         icon: Radio,
@@ -98,10 +109,14 @@ const showcaseSections: ShowcaseSection[] = [
     }
 ];
 
+const pad2 = (n: number) => String(n + 1).padStart(2, '0');
+
 const RedTeamShowcase: React.FC = () => {
     const [activeSection, setActiveSection] = useState<string>('terminal');
 
-    const ActiveComponent = showcaseSections.find(s => s.id === activeSection)?.component || AdvancedLiveTerminal;
+    const activeIndex = Math.max(0, showcaseSections.findIndex(s => s.id === activeSection));
+    const active = showcaseSections[activeIndex];
+    const ActiveComponent = active?.component || AdvancedLiveTerminal;
 
     return (
         <>
@@ -115,68 +130,78 @@ const RedTeamShowcase: React.FC = () => {
                 <meta name="twitter:image" content="https://about.surf/upload/profile.jpg" />
             </Helmet>
 
-            {/* Hero Section */}
-            <Section fullHeight className="flex items-center justify-center">
-                <div className="max-w-4xl mx-auto text-center">
-                    <ParallaxEffect speed={0.1} direction="up">
-                        <span className="text-sm font-medium px-3 py-1 rounded-full bg-red-500/20 text-red-500 inline-block mb-4">
-                            Interactive Demonstrations
-                        </span>
-                        <h1 className="section-heading mb-6">
-                            Red Team Showcase
-                        </h1>
-                        <p className="section-subheading max-w-2xl mx-auto">
-                            Explore interactive demonstrations of offensive security techniques, exploits, and attack methodologies.
-                        </p>
-                    </ParallaxEffect>
-                </div>
-            </Section>
+            <div className="relative bg-background text-foreground -mt-16 pt-16">
+                {/* subtle grid + glow backdrop */}
+                <div className="pointer-events-none absolute inset-0 rt-grid-bg opacity-60" />
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] bg-[radial-gradient(60%_50%_at_50%_0%,rgba(239,68,68,0.18),transparent_70%)]" />
 
-            {/* Navigation */}
-            <Section className="py-12 border-b border-border sticky top-0 bg-background/95 backdrop-blur-sm z-40">
-                <div className="max-w-7xl mx-auto">
-                    <div className="flex gap-2 overflow-x-auto pb-2">
-                        {showcaseSections.map((section) => {
-                            const Icon = section.icon;
-                            return (
-                                <button
-                                    key={section.id}
-                                    onClick={() => setActiveSection(section.id)}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all whitespace-nowrap ${activeSection === section.id
-                                        ? 'bg-primary text-primary-foreground shadow-lg scale-105'
-                                        : 'bg-secondary/50 border border-border/50 text-secondary-foreground hover:bg-secondary hover:border-border'
-                                        }`}
-                                >
-                                    <Icon className="h-4 w-4" />
-                                    {section.title}
-                                </button>
-                            );
-                        })}
+                {/* Hero Section */}
+                <Section fullHeight className="flex items-center justify-center relative">
+                    <RedTeamHero
+                        moduleCount={showcaseSections.length}
+                        moduleNames={showcaseSections.map((s) => s.title)}
+                    />
+                </Section>
+
+                {/* Navigation */}
+                <div className="sticky top-16 z-40 border-y border-border bg-background/90 backdrop-blur-xl">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-4">
+                        <div className="flex gap-2 overflow-x-auto custom-scrollbar pb-1">
+                            {showcaseSections.map((section, index) => {
+                                const Icon = section.icon;
+                                const isActive = activeSection === section.id;
+                                return (
+                                    <button
+                                        key={section.id}
+                                        onClick={() => setActiveSection(section.id)}
+                                        className={`group flex items-center gap-2.5 px-4 py-2.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap border ${isActive
+                                            ? 'bg-primary text-primary-foreground border-primary shadow-lg'
+                                            : 'bg-muted/40 border-border text-muted-foreground hover:text-foreground hover:border-foreground/25 hover:bg-muted/70'
+                                            }`}
+                                    >
+                                        <span className={`font-mono text-[10px] ${isActive ? 'text-red-500' : 'text-muted-foreground group-hover:text-red-400'}`}>{pad2(index)}</span>
+                                        <Icon className="h-4 w-4" />
+                                        {section.title}
+                                    </button>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
-            </Section>
 
-            {/* Active Section */}
-            <Section className="py-16">
-                <div className="max-w-7xl mx-auto">
-                    <ScrollReveal variant="fadeIn">
-                        <div className="mb-8 text-center">
-                            <h2 className="text-3xl font-bold mb-2">
-                                {showcaseSections.find(s => s.id === activeSection)?.title}
-                            </h2>
-                            <p className="text-muted-foreground">
-                                {showcaseSections.find(s => s.id === activeSection)?.description}
-                            </p>
-                        </div>
-                    </ScrollReveal>
+                {/* Active Section */}
+                <Section className="py-16 md:py-24 relative">
+                    <div className="max-w-7xl mx-auto">
+                        <ScrollReveal variant="fadeIn">
+                            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 pb-8 border-b border-border">
+                                <div className="flex items-start gap-5 md:gap-8">
+                                    <span className="font-display font-bold text-5xl md:text-7xl leading-none rt-outline-text">
+                                        {pad2(activeIndex)}
+                                    </span>
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-red-400">
+                                            {active?.icon && React.createElement(active.icon, { className: 'h-3.5 w-3.5' })}
+                                            {active?.tag}
+                                        </div>
+                                        <h2 className="font-display font-bold text-3xl md:text-5xl tracking-tight leading-tight">
+                                            {active?.title}
+                                        </h2>
+                                    </div>
+                                </div>
+                                <p className="max-w-sm text-sm md:text-base text-muted-foreground leading-relaxed md:text-right">
+                                    {active?.description}
+                                </p>
+                            </div>
+                        </ScrollReveal>
 
-                    <ScrollReveal variant="slideUp" delay={100}>
-                        <div className="mt-8">
-                            <ActiveComponent />
-                        </div>
-                    </ScrollReveal>
-                </div>
-            </Section>
+                        <ScrollReveal key={activeSection} variant="slideUp" delay={100}>
+                            <div className="rounded-2xl border border-white/10 bg-[#0a0a0b] p-4 md:p-8 shadow-2xl dark:bg-black/40">
+                                <ActiveComponent />
+                            </div>
+                        </ScrollReveal>
+                    </div>
+                </Section>
+            </div>
         </>
     );
 };

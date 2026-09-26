@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, RotateCcw, Skull, Terminal as TerminalIcon, Activity } from 'lucide-react';
+import { Play, Pause, RotateCcw, Skull, Terminal as TerminalIcon, Activity, Network, Bug, ShieldOff, Globe, Search, Layers, Gauge } from 'lucide-react';
 import { Button } from '@/components/UI/button';
 
 interface Command {
@@ -13,14 +13,16 @@ interface Scenario {
     name: string;
     description: string;
     difficulty: 'Advanced' | 'Expert' | 'APT';
+    icon: React.ElementType;
     commands: Command[];
 }
 
 const advancedScenarios: Scenario[] = [
     {
-        name: "🎯 APT Lateral Movement",
+        name: "APT Lateral Movement",
         description: "Advanced Persistent Threat - Domain Takeover",
         difficulty: "APT",
+        icon: Network,
         commands: [
             {
                 command: "crackmapexec smb 10.10.10.0/24 -u users.txt -p passwords.txt --continue-on-success",
@@ -112,9 +114,10 @@ const advancedScenarios: Scenario[] = [
         ]
     },
     {
-        name: "💀 Zero-Day Exploit Chain",
+        name: "Zero-Day Exploit Chain",
         description: "Browser → Sandbox Escape → Kernel Exploit",
         difficulty: "Expert",
+        icon: Bug,
         commands: [
             {
                 command: "python3 browser_exploit.py --target http://victim.com --cve CVE-2024-XXXX",
@@ -196,9 +199,10 @@ const advancedScenarios: Scenario[] = [
         ]
     },
     {
-        name: "🔓 Advanced EDR Bypass",
+        name: "Advanced EDR Bypass",
         description: "Direct Syscalls + Process Injection + Unhooking",
         difficulty: "Expert",
+        icon: ShieldOff,
         commands: [
             {
                 command: "python3 edr_bypass.py --technique direct-syscall --target lsass.exe",
@@ -268,9 +272,10 @@ const advancedScenarios: Scenario[] = [
         ]
     },
     {
-        name: "💉 Modern Web Exploitation",
+        name: "Modern Web Exploitation",
         description: "GraphQL Introspection → JWT IDOR → Cloud SSRF",
         difficulty: "Expert",
+        icon: Globe,
         commands: [
             {
                 command: "python3 web_audit.py --target https://api.corp.local --verify-graphql",
@@ -329,9 +334,10 @@ const advancedScenarios: Scenario[] = [
         ]
     },
     {
-        name: "🕵️ Threat Hunting & IR",
+        name: "Threat Hunting & IR",
         description: "Memory Forensics → Beacon Detection → Remediation",
         difficulty: "Expert",
+        icon: Search,
         commands: [
             {
                 command: "volatility -f memory.dmp --profile Win10x64_19041 malfind",
@@ -490,21 +496,23 @@ const AdvancedLiveTerminal: React.FC = () => {
     return (
         <div className="w-full max-w-6xl mx-auto space-y-6">
             {/* Scenario Selector */}
-            <div className="relative">
-                <div className="flex gap-3 overflow-x-auto pb-4 pt-1 px-1 custom-scrollbar">
+            <div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {advancedScenarios.map((scenario, index) => (
                         <button
                             key={index}
                             onClick={() => handleScenarioChange(index)}
-                            className={`flex-shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-lg text-xs md:text-sm font-semibold transition-all duration-300 transform ${selectedScenario === index
-                                ? 'bg-primary text-primary-foreground shadow-[0_0_20px_rgba(var(--primary),0.3)] scale-105 border-primary z-10'
-                                : 'bg-secondary/40 text-secondary-foreground hover:bg-secondary/60 border border-white/5 hover:border-white/20'
+                            className={`w-full text-left px-3 md:px-5 py-2.5 md:py-3 rounded-lg text-xs md:text-sm font-semibold transition-all duration-300 border ${selectedScenario === index
+                                ? 'bg-primary text-primary-foreground shadow-[0_0_20px_rgba(var(--primary),0.3)] border-primary'
+                                : 'bg-secondary/40 text-secondary-foreground hover:bg-secondary/60 border-white/5 hover:border-white/20'
                                 }`}
                         >
                             <div className="flex flex-col items-start gap-1">
                                 <div className="flex items-center gap-2">
-                                    <span className="text-base">{scenario.name.split(' ')[0]}</span>
-                                    <span className="font-bold">{scenario.name.split(' ').slice(1).join(' ')}</span>
+                                    <span className={`flex items-center justify-center h-7 w-7 rounded-md border ${selectedScenario === index ? 'bg-white/15 border-white/20' : 'bg-white/5 border-white/10'}`}>
+                                        {React.createElement(scenario.icon, { className: 'h-4 w-4' })}
+                                    </span>
+                                    <span className="font-bold">{scenario.name}</span>
                                 </div>
                                 <div className="flex items-center gap-2 mt-1">
                                     <span
@@ -527,8 +535,6 @@ const AdvancedLiveTerminal: React.FC = () => {
                         </button>
                     ))}
                 </div>
-                {/* Right fade indicator */}
-                <div className="absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-background to-transparent pointer-events-none" />
             </div>
 
             {/* Terminal Window */}
@@ -653,42 +659,48 @@ const AdvancedLiveTerminal: React.FC = () => {
 
             {/* Scenario Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-black/40 border border-white/5 rounded-xl p-5 backdrop-blur-sm transition-all hover:bg-black/60 hover:border-white/10">
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs text-white/40 font-bold uppercase tracking-wider">Risk Level</span>
-                        <Skull className="h-4 w-4" style={{ color: getDifficultyColor(currentScenario.difficulty) }} />
+                <div className="bg-white/[0.02] border border-white/10 rounded-xl p-5 transition-all hover:border-white/20">
+                    <div className="flex items-center gap-2 mb-4 font-mono text-[11px] text-white/40 uppercase tracking-[0.18em]">
+                        <Gauge className="h-3.5 w-3.5" />
+                        Risk Level
                     </div>
-                    <div className="text-2xl font-black italic tracking-tighter" style={{ color: getDifficultyColor(currentScenario.difficulty) }}>
-                        {currentScenario.difficulty}
-                    </div>
-                </div>
-
-                <div className="bg-black/40 border border-white/5 rounded-xl p-5 backdrop-blur-sm transition-all hover:bg-black/60 hover:border-white/10">
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs text-white/40 font-bold uppercase tracking-wider">Complexity</span>
-                        <TerminalIcon className="h-4 w-4 text-primary" />
-                    </div>
-                    <div className="text-2xl font-black italic tracking-tighter text-primary">
-                        {currentScenario.commands.length} STAGES
+                    <div className="flex items-center gap-2.5">
+                        <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: getDifficultyColor(currentScenario.difficulty), boxShadow: `0 0 10px ${getDifficultyColor(currentScenario.difficulty)}` }} />
+                        <span className="text-2xl font-display font-bold tracking-tight" style={{ color: getDifficultyColor(currentScenario.difficulty) }}>
+                            {currentScenario.difficulty}
+                        </span>
                     </div>
                 </div>
 
-                <div className="bg-black/40 border border-white/5 rounded-xl p-5 backdrop-blur-sm transition-all hover:bg-black/60 hover:border-white/10">
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs text-white/40 font-bold uppercase tracking-wider">Mission Progress</span>
-                        <Activity className="h-4 w-4 text-green-500" />
+                <div className="bg-white/[0.02] border border-white/10 rounded-xl p-5 transition-all hover:border-white/20">
+                    <div className="flex items-center gap-2 mb-4 font-mono text-[11px] text-white/40 uppercase tracking-[0.18em]">
+                        <Layers className="h-3.5 w-3.5" />
+                        Complexity
                     </div>
-                    <div className="flex items-end gap-2">
-                        <div className="text-2xl font-black italic tracking-tighter text-green-500">
+                    <div className="flex items-baseline gap-2">
+                        <span className="text-2xl font-display font-bold tracking-tight text-white">
+                            {currentScenario.commands.length}
+                        </span>
+                        <span className="text-sm text-white/50">stages</span>
+                    </div>
+                </div>
+
+                <div className="bg-white/[0.02] border border-white/10 rounded-xl p-5 transition-all hover:border-white/20">
+                    <div className="flex items-center justify-between mb-4 font-mono text-[11px] text-white/40 uppercase tracking-[0.18em]">
+                        <span className="flex items-center gap-2">
+                            <Activity className="h-3.5 w-3.5" />
+                            Progress
+                        </span>
+                        <span className="text-white/30">{currentCommandIndex}/{currentScenario.commands.length}</span>
+                    </div>
+                    <div className="flex items-baseline gap-2 mb-3">
+                        <span className="text-2xl font-display font-bold tracking-tight text-green-400">
                             {Math.round((currentCommandIndex / currentScenario.commands.length) * 100)}%
-                        </div>
-                        <div className="text-xs text-white/20 mb-1 font-mono">
-                            [{currentCommandIndex}/{currentScenario.commands.length}]
-                        </div>
+                        </span>
                     </div>
-                    <div className="mt-3 w-full bg-white/5 h-1 rounded-full overflow-hidden">
+                    <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
                         <div
-                            className="h-full bg-green-500 transition-all duration-500"
+                            className="h-full bg-green-400 rounded-full transition-all duration-500"
                             style={{ width: `${(currentCommandIndex / currentScenario.commands.length) * 100}%` }}
                         />
                     </div>

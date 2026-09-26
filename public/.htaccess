@@ -1,0 +1,68 @@
+# about.surf - Apache config for the built SPA (copied to dist/ on build)
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Force HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Canonical host: www -> non-www (matches <link rel="canonical">)
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # SPA history fallback: serve index.html for any route that is not a real file/dir
+  # (fixes direct visits / refresh on /blog/11, /services, etc.)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Gzip / deflate
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml \
+    application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# Cache policy
+<IfModule mod_headers.c>
+  # Hashed build assets never change -> cache for a year
+  <FilesMatch "\.(js|css|woff2?|ttf|eot)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # Images
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  # Never cache the HTML shell so new deploys are picked up immediately
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  # ---- Security headers ----
+  # Content Security Policy (allows: self, gptengineer script, Google Fonts, EmailJS API)
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdn.gpteng.co https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.emailjs.com https://cloudflareinsights.com; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+  # Force HTTPS for 1 year across subdomains (only honoured over HTTPS)
+  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header set X-Content-Type-Options "nosniff"
+  # frame-ancestors 'none' above is the modern control; XFO covers legacy browsers
+  Header set X-Frame-Options "DENY"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), usb=(), payment=()"
+  # Cross-origin isolation (COEP intentionally omitted: it would break 3rd-party scripts/fonts)
+  Header set Cross-Origin-Opener-Policy "same-origin"
+  Header set Cross-Origin-Resource-Policy "same-origin"
+  # Legacy XSS auditor off (can itself cause XS-Leaks); rely on CSP
+  Header set X-XSS-Protection "0"
+  # Remove server/framework fingerprinting
+  Header unset X-Powered-By
+  Header unset Server
+</IfModule>
+
+# Correct MIME types
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
+  AddType image/svg+xml .svg
+</IfModule>
+
+ErrorDocument 404 /index.html
