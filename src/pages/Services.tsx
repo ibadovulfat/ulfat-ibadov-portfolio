@@ -92,7 +92,7 @@ const Services = () => {
       {/* Hero Section */}
       <PageHero
         eyebrow="Services"
-        title={<>Expert <span className="text-red-500">Cybersecurity</span> Services</>}
+        title={<><span className="text-red-500">Cybersecurity</span> Services</>}
         subtitle="Comprehensive security solutions to protect your digital assets and infrastructure from evolving cyber threats."
       />
 
